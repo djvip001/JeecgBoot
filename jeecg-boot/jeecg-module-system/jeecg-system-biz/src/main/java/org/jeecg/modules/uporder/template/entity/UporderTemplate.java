@@ -1,4 +1,4 @@
-package org.jeecg.modules.uporder.project.entity;
+package org.jeecg.modules.uporder.template.entity;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -21,42 +21,35 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * @Description: 报单项目
+ * @Description: 产品模版
  * @Author: jeecg-boot
- * @Date:   2024-11-16
+ * @Date:   2024-11-20
  * @Version: V1.0
  */
 @Data
-@TableName("uporder_project")
+@TableName("uporder_template")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="uporder_project对象", description="报单项目")
-public class UporderProject implements Serializable {
+@ApiModel(value="uporder_template对象", description="产品模版")
+public class UporderTemplate implements Serializable {
     private static final long serialVersionUID = 1L;
 
 	/**主键*/
 	@TableId(type = IdType.ASSIGN_ID)
     @ApiModelProperty(value = "主键")
     private java.lang.String id;
-	/**项目名称*/
-	@Excel(name = "项目名称", width = 15)
-    @ApiModelProperty(value = "项目名称")
-    private java.lang.String projectName;
-	/**项目描述*/
-	@Excel(name = "项目描述", width = 15)
-    @ApiModelProperty(value = "项目描述")
-    private java.lang.String projectDesc;
+	/**模板名*/
+	@Excel(name = "模板名", width = 15)
+    @ApiModelProperty(value = "模板名")
+    private java.lang.String name;
+	/**模板内容*/
+	@Excel(name = "模板内容", width = 15)
+    @ApiModelProperty(value = "模板内容")
+    private java.lang.String content;
 	/**租户id*/
 	@Excel(name = "租户id", width = 15)
     @ApiModelProperty(value = "租户id")
     private java.lang.String tenantId;
-
-    /**
-     * 删除状态（0，正常，1已删除）
-     */
-    @Excel(name = "删除状态", width = 15,dicCode="del_flag")
-    @TableLogic
-    private Integer delFlag;
 	/**创建人*/
     @ApiModelProperty(value = "创建人")
     private java.lang.String createBy;

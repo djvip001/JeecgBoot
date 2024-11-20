@@ -2,6 +2,7 @@ import {BasicColumn} from '/@/components/Table';
 import {FormSchema} from '/@/components/Table';
 import { rules} from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
+import {JVxeTypes,JVxeColumn} from '/@/components/jeecg/JVxeTable/types'
 import { getWeekMonthQuarterYear } from '/@/utils';
 //列表数据
 export const columns: BasicColumn[] = [
@@ -380,7 +381,7 @@ export const formSchema: FormSchema[] = [
     field: 'starTime',
     component: 'DatePicker',
     componentProps: {
-       showTime: true,
+       showTime:true,
        valueFormat: 'YYYY-MM-DD HH:mm:ss'
      },
   },
@@ -389,7 +390,7 @@ export const formSchema: FormSchema[] = [
     field: 'endTime',
     component: 'DatePicker',
     componentProps: {
-       showTime: true,
+       showTime:true,
        valueFormat: 'YYYY-MM-DD HH:mm:ss'
      },
   },
@@ -406,6 +407,83 @@ export const formSchema: FormSchema[] = [
 	  show: false
 	},
 ];
+//子表单数据
+//子表列表数据
+export const uporderProductMediumTextColumns: BasicColumn[] = [
+   {
+    title: '下单方案',
+    align:"center",
+    dataIndex: 'planHtml'
+   },
+   {
+    title: '弹框提示',
+    align:"center",
+    dataIndex: 'reportPopupsTip'
+   },
+];
+export const uporderProductMediumTextFormSchema: FormSchema[] = [
+  {
+    label: '下单方案',
+    field: 'planHtml',
+    component: 'InputTextArea',
+    dynamicRules: ({model,schema}) => {
+          return [
+                 { required: true, message: '请输入下单方案!'},
+          ];
+     },
+  },
+  {
+    label: '弹框提示',
+    field: 'reportPopupsTip',
+    component: 'InputTextArea',
+    dynamicRules: ({model,schema}) => {
+          return [
+                 { required: true, message: '请输入弹框提示!'},
+          ];
+     },
+  },
+	{
+	  label: '',
+	  field: 'id',
+	  component: 'Input',
+	  show: false
+	},
+];
+//子表列表数据
+export const uporderProductTypeRefundConfigColumns: BasicColumn[] = [
+   {
+    title: '用户类型id',
+    align:"center",
+    dataIndex: 'typeId'
+   },
+   {
+    title: '折扣',
+    align:"center",
+    dataIndex: 'discount'
+   },
+];
+//子表表格配置
+export const uporderProductTypeRefundConfigJVxeColumns: JVxeColumn[] = [
+    {
+      title: '用户类型id',
+      key: 'typeId',
+      type: JVxeTypes.input,
+      width:"200px",
+      placeholder: '请输入${title}',
+      defaultValue:'',
+        validateRules: [
+          { required: true, message: '${title}不能为空' },
+        ],
+    },
+    {
+      title: '折扣',
+      key: 'discount',
+      type: JVxeTypes.inputNumber,
+      width:"200px",
+      placeholder: '请输入${title}',
+      defaultValue:'',
+    },
+  ]
 
 // 高级查询数据
 export const superQuerySchema = {
@@ -427,6 +505,23 @@ export const superQuerySchema = {
   maxReportInterval: {title: '最大报单时间',order: 24,view: 'number', type: 'number',},
   starTime: {title: '开始报单时间',order: 26,view: 'datetime', type: 'string',},
   endTime: {title: '结束报单时间',order: 27,view: 'datetime', type: 'string',},
+  //子表高级查询
+  uporderProductMediumText: {
+    title: '产品文本表',
+    view: 'table',
+    fields: {
+        planHtml: {title: '下单方案',order: 0,view: 'textarea', type: 'string',},
+        reportPopupsTip: {title: '弹框提示',order: 1,view: 'textarea', type: 'string',},
+    }
+  },
+  uporderProductTypeRefundConfig: {
+    title: '产品用户类型折扣表',
+    view: 'table',
+    fields: {
+        typeId: {title: '用户类型id',order: 0,view: 'text', type: 'string',},
+        discount: {title: '折扣',order: 1,view: 'number', type: 'number',},
+    }
+  },
 };
 
 /**

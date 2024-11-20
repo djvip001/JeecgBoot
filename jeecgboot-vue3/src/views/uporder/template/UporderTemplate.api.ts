@@ -4,36 +4,23 @@ import { useMessage } from "/@/hooks/web/useMessage";
 const { createConfirm } = useMessage();
 
 enum Api {
-  list = '/product/uporderProduct/list',
-  save='/product/uporderProduct/add',
-  edit='/product/uporderProduct/edit',
-  deleteOne = '/product/uporderProduct/delete',
-  deleteBatch = '/product/uporderProduct/deleteBatch',
-  importExcel = '/product/uporderProduct/importExcel',
-  exportXls = '/product/uporderProduct/exportXls',
-  uporderProductMediumTextList = '/product/uporderProduct/queryUporderProductMediumTextByMainId',
-  uporderProductTypeRefundConfigList = '/product/uporderProduct/queryUporderProductTypeRefundConfigByMainId',
+  list = '/template/uporderTemplate/list',
+  save='/template/uporderTemplate/add',
+  edit='/template/uporderTemplate/edit',
+  deleteOne = '/template/uporderTemplate/delete',
+  deleteBatch = '/template/uporderTemplate/deleteBatch',
+  importExcel = '/template/uporderTemplate/importExcel',
+  exportXls = '/template/uporderTemplate/exportXls',
 }
 /**
  * 导出api
  * @param params
  */
 export const getExportUrl = Api.exportXls;
-
 /**
  * 导入api
  */
 export const getImportUrl = Api.importExcel;
-/**
- * 子表单查询接口
- * @param params
- */
-export const queryUporderProductMediumText = Api.uporderProductMediumTextList
-/**
- * 子表单查询接口
- * @param params
- */
-export const queryUporderProductTypeRefundConfig = Api.uporderProductTypeRefundConfigList
 /**
  * 列表接口
  * @param params
@@ -75,15 +62,3 @@ export const saveOrUpdate = (params, isUpdate) => {
   let url = isUpdate ? Api.edit : Api.save;
   return defHttp.post({url: url, params});
 }
-/**
- * 子表列表接口
- * @param params
- */
-export const uporderProductMediumTextList = (params) =>
-  defHttp.get({url: Api.uporderProductMediumTextList, params},{isTransformResponse:false});
-/**
- * 子表列表接口
- * @param params
- */
-export const uporderProductTypeRefundConfigList = (params) =>
-  defHttp.get({url: Api.uporderProductTypeRefundConfigList, params},{isTransformResponse:false});

@@ -66,6 +66,7 @@ public class MybatisPlusSaasConfig {
             TENANT_TABLE.add("uporder_project");
             TENANT_TABLE.add("uporder_config");
             TENANT_TABLE.add("uporder_product");
+            TENANT_TABLE.add("uporder_template");
         }
 
         //2.示例测试
