@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * @Description: 产品表
  * @Author: jeecg-boot
- * @Date:   2024-11-19
+ * @Date:   2024-11-21
  * @Version: V1.0
  */
 @ApiModel(value="uporder_product对象", description="产品表")
@@ -66,7 +66,7 @@ public class UporderProduct implements Serializable {
 	@Excel(name = "返款计算方式", width = 15, dicCode = "refund_cal_way")
     @Dict(dicCode = "refund_cal_way")
     @ApiModelProperty(value = "返款计算方式")
-    private java.lang.Integer inRefundCalWay;
+    private java.lang.Integer refundCalWay;
 	/**默认成本*/
 	@Excel(name = "默认成本", width = 15)
     @ApiModelProperty(value = "默认成本")
@@ -89,49 +89,49 @@ public class UporderProduct implements Serializable {
     @ApiModelProperty(value = "上级报单链接")
     private java.lang.String upperReportUrl;
 	/**是否跟上级额度*/
-    @Excel(name = "是否跟上级额度", width = 15,replace = {"是_Y","否_N"} )
+    @Excel(name = "是否跟上级额度", width = 15,replace = {"是_1","否_0"} )
     @ApiModelProperty(value = "是否跟上级额度")
-    private java.lang.String validUpperLimit;
+    private java.lang.Integer validUpperLimit;
 	/**关闭自动推单*/
-    @Excel(name = "关闭自动推单", width = 15,replace = {"是_Y","否_N"} )
+    @Excel(name = "关闭自动推单", width = 15,replace = {"是_1","否_0"} )
     @ApiModelProperty(value = "关闭自动推单")
-    private java.lang.String closeAutoPush;
+    private java.lang.Integer closeAutoPush;
 	/**关闭自动申请返款*/
-    @Excel(name = "关闭自动申请返款", width = 15,replace = {"是_Y","否_N"} )
+    @Excel(name = "关闭自动申请返款", width = 15,replace = {"是_1","否_0"} )
     @ApiModelProperty(value = "关闭自动申请返款")
-    private java.lang.String closeAutoRefund;
+    private java.lang.Integer closeAutoRefund;
 	/**上架状态*/
-    @Excel(name = "上架状态", width = 15,replace = {"是_Y","否_N"} )
+    @Excel(name = "上架状态", width = 15,replace = {"是_1","否_0"} )
     @ApiModelProperty(value = "上架状态")
-    private java.lang.String shelf;
+    private java.lang.Integer shelf;
 	/**是否显示配额*/
-    @Excel(name = "是否显示配额", width = 15,replace = {"是_Y","否_N"} )
+    @Excel(name = "是否显示配额", width = 15,replace = {"是_1","否_0"} )
     @ApiModelProperty(value = "是否显示配额")
-    private java.lang.String showQuota;
+    private java.lang.Integer showQuota;
 	/**是否活动页显示*/
-    @Excel(name = "是否活动页显示", width = 15,replace = {"是_Y","否_N"} )
+    @Excel(name = "是否活动页显示", width = 15,replace = {"是_1","否_0"} )
     @ApiModelProperty(value = "是否活动页显示")
-    private java.lang.String showAct;
+    private java.lang.Integer showAct;
 	/**是否预售*/
-    @Excel(name = "是否预售", width = 15,replace = {"是_Y","否_N"} )
+    @Excel(name = "是否预售", width = 15,replace = {"是_1","否_0"} )
     @ApiModelProperty(value = "是否预售")
-    private java.lang.String presale;
+    private java.lang.Integer presale;
 	/**是否收集评价图*/
-    @Excel(name = "是否收集评价图", width = 15,replace = {"是_Y","否_N"} )
+    @Excel(name = "是否收集评价图", width = 15,replace = {"是_1","否_0"} )
     @ApiModelProperty(value = "是否收集评价图")
-    private java.lang.String collectEvaluateImg;
+    private java.lang.Integer collectEvaluateImg;
 	/**是否收集物流单号*/
-    @Excel(name = "是否收集物流单号", width = 15,replace = {"是_Y","否_N"} )
+    @Excel(name = "是否收集物流单号", width = 15,replace = {"是_1","否_0"} )
     @ApiModelProperty(value = "是否收集物流单号")
-    private java.lang.String collectTrafficNo;
+    private java.lang.Integer collectTrafficNo;
 	/**是否刷货产品*/
-    @Excel(name = "是否刷货产品", width = 15,replace = {"是_Y","否_N"} )
+    @Excel(name = "是否刷货产品", width = 15,replace = {"是_1","否_0"} )
     @ApiModelProperty(value = "是否刷货产品")
-    private java.lang.String shuahuo;
+    private java.lang.Integer shuahuo;
 	/**是否完结*/
-    @Excel(name = "是否完结", width = 15,replace = {"是_Y","否_N"} )
+    @Excel(name = "是否完结", width = 15,replace = {"是_1","否_0"} )
     @ApiModelProperty(value = "是否完结")
-    private java.lang.String settlement;
+    private java.lang.Integer settlement;
 	/**最大报单时间*/
 	@Excel(name = "最大报单时间", width = 15)
     @ApiModelProperty(value = "最大报单时间")
@@ -160,6 +160,11 @@ public class UporderProduct implements Serializable {
 	@Excel(name = "租户id", width = 15)
     @ApiModelProperty(value = "租户id")
     private java.lang.String tenantId;
+    /**删除状态*/
+    @Excel(name = "删除状态", width = 15)
+    @ApiModelProperty(value = "删除状态")
+    @TableLogic
+    private java.lang.Integer delFlag;
 	/**创建人*/
     @ApiModelProperty(value = "创建人")
     private java.lang.String createBy;

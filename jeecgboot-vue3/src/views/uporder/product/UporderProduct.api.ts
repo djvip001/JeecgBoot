@@ -13,6 +13,9 @@ enum Api {
   exportXls = '/product/uporderProduct/exportXls',
   uporderProductMediumTextList = '/product/uporderProduct/queryUporderProductMediumTextByMainId',
   uporderProductTypeRefundConfigList = '/product/uporderProduct/queryUporderProductTypeRefundConfigByMainId',
+  uporderProductDefineFieldList = '/product/uporderProduct/queryUporderProductDefineFieldByMainId',
+  uporderProductUserLimitList = '/product/uporderProduct/queryUporderProductUserLimitByMainId',
+  uporderProductBuyLinkList = '/product/uporderProduct/queryUporderProductBuyLinkByMainId',
 }
 /**
  * 导出api
@@ -25,15 +28,30 @@ export const getExportUrl = Api.exportXls;
  */
 export const getImportUrl = Api.importExcel;
 /**
- * 子表单查询接口
+ * 查询子表数据
  * @param params
  */
-export const queryUporderProductMediumText = Api.uporderProductMediumTextList
+export const uporderProductMediumTextList = Api.uporderProductMediumTextList;
 /**
- * 子表单查询接口
+ * 查询子表数据
  * @param params
  */
-export const queryUporderProductTypeRefundConfig = Api.uporderProductTypeRefundConfigList
+export const uporderProductTypeRefundConfigList = Api.uporderProductTypeRefundConfigList;
+/**
+ * 查询子表数据
+ * @param params
+ */
+export const uporderProductDefineFieldList = Api.uporderProductDefineFieldList;
+/**
+ * 查询子表数据
+ * @param params
+ */
+export const uporderProductUserLimitList = Api.uporderProductUserLimitList;
+/**
+ * 查询子表数据
+ * @param params
+ */
+export const uporderProductBuyLinkList = Api.uporderProductBuyLinkList;
 /**
  * 列表接口
  * @param params
@@ -75,15 +93,3 @@ export const saveOrUpdate = (params, isUpdate) => {
   let url = isUpdate ? Api.edit : Api.save;
   return defHttp.post({url: url, params});
 }
-/**
- * 子表列表接口
- * @param params
- */
-export const uporderProductMediumTextList = (params) =>
-  defHttp.get({url: Api.uporderProductMediumTextList, params},{isTransformResponse:false});
-/**
- * 子表列表接口
- * @param params
- */
-export const uporderProductTypeRefundConfigList = (params) =>
-  defHttp.get({url: Api.uporderProductTypeRefundConfigList, params},{isTransformResponse:false});

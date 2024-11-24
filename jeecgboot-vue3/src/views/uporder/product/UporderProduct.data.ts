@@ -29,7 +29,7 @@ export const columns: BasicColumn[] = [
    {
     title: '返款计算方式',
     align:"center",
-    dataIndex: 'inRefundCalWay_dictText'
+    dataIndex: 'refundCalWay_dictText'
    },
    {
     title: '税率',
@@ -46,7 +46,7 @@ export const columns: BasicColumn[] = [
     align:"center",
     dataIndex: 'shelf',
     customRender:({text}) => {
-       return  render.renderSwitch(text, [{text:'是',value:'Y'},{text:'否',value:'N'}])
+       return  render.renderSwitch(text, [{text:'是',value:'1'},{text:'否',value:'0'}])
      },
    },
    {
@@ -54,7 +54,7 @@ export const columns: BasicColumn[] = [
     align:"center",
     dataIndex: 'showQuota',
     customRender:({text}) => {
-       return  render.renderSwitch(text, [{text:'是',value:'Y'},{text:'否',value:'N'}])
+       return  render.renderSwitch(text, [{text:'是',value:'1'},{text:'否',value:'0'}])
      },
    },
    {
@@ -62,7 +62,7 @@ export const columns: BasicColumn[] = [
     align:"center",
     dataIndex: 'showAct',
     customRender:({text}) => {
-       return  render.renderSwitch(text, [{text:'是',value:'Y'},{text:'否',value:'N'}])
+       return  render.renderSwitch(text, [{text:'是',value:'1'},{text:'否',value:'0'}])
      },
    },
    {
@@ -70,7 +70,7 @@ export const columns: BasicColumn[] = [
     align:"center",
     dataIndex: 'presale',
     customRender:({text}) => {
-       return  render.renderSwitch(text, [{text:'是',value:'Y'},{text:'否',value:'N'}])
+       return  render.renderSwitch(text, [{text:'是',value:'1'},{text:'否',value:'0'}])
      },
    },
    {
@@ -78,7 +78,7 @@ export const columns: BasicColumn[] = [
     align:"center",
     dataIndex: 'collectEvaluateImg',
     customRender:({text}) => {
-       return  render.renderSwitch(text, [{text:'是',value:'Y'},{text:'否',value:'N'}])
+       return  render.renderSwitch(text, [{text:'是',value:'1'},{text:'否',value:'0'}])
      },
    },
    {
@@ -86,7 +86,7 @@ export const columns: BasicColumn[] = [
     align:"center",
     dataIndex: 'collectTrafficNo',
     customRender:({text}) => {
-       return  render.renderSwitch(text, [{text:'是',value:'Y'},{text:'否',value:'N'}])
+       return  render.renderSwitch(text, [{text:'是',value:'1'},{text:'否',value:'0'}])
      },
    },
    {
@@ -94,7 +94,7 @@ export const columns: BasicColumn[] = [
     align:"center",
     dataIndex: 'shuahuo',
     customRender:({text}) => {
-       return  render.renderSwitch(text, [{text:'是',value:'Y'},{text:'否',value:'N'}])
+       return  render.renderSwitch(text, [{text:'是',value:'1'},{text:'否',value:'0'}])
      },
    },
    {
@@ -102,7 +102,7 @@ export const columns: BasicColumn[] = [
     align:"center",
     dataIndex: 'settlement',
     customRender:({text}) => {
-       return  render.renderSwitch(text, [{text:'是',value:'Y'},{text:'否',value:'N'}])
+       return  render.renderSwitch(text, [{text:'是',value:'1'},{text:'否',value:'0'}])
      },
    },
    {
@@ -125,7 +125,7 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
 	{
       label: "项目",
-      field: 'projectId',
+      field: "projectId",
       component: 'JSelectMultiple',
       componentProps:{
           dictCode:"uporder_project,project_name,id"
@@ -134,52 +134,47 @@ export const searchFormSchema: FormSchema[] = [
  	},
 	{
       label: "产品名",
-      field: 'productName',
+      field: "productName",
       component: 'Input',
       //colProps: {span: 6},
  	},
 	{
-      label: "报单上级",
-      field: 'upperConfigId',
-      component: 'JSelectMultiple',
-      componentProps:{
-          dictCode:"uporder_config,upper_name,id"
-      },
-      //colProps: {span: 6},
- 	},
-	{
       label: "上架状态",
-      field: 'shelf',
+      field: "shelf",
       component: 'JSwitch',
       componentProps:{
            query:true,
+           options:[1,0]
        },
       //colProps: {span: 6},
  	},
 	{
       label: "是否显示配额",
-      field: 'showQuota',
+      field: "showQuota",
       component: 'JSwitch',
       componentProps:{
            query:true,
+           options:[1,0]
        },
       //colProps: {span: 6},
  	},
 	{
       label: "是否活动页显示",
-      field: 'showAct',
+      field: "showAct",
       component: 'JSwitch',
       componentProps:{
            query:true,
+           options:[1,0]
        },
       //colProps: {span: 6},
  	},
 	{
       label: "是否收集评价图",
-      field: 'collectEvaluateImg',
+      field: "collectEvaluateImg",
       component: 'JSwitch',
       componentProps:{
            query:true,
+           options:[1,0]
        },
       //colProps: {span: 6},
  	},
@@ -246,7 +241,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     label: '返款计算方式',
-    field: 'inRefundCalWay',
+    field: 'refundCalWay',
     component: 'JDictSelectTag',
     componentProps:{
         dictCode:"refund_cal_way",
@@ -291,6 +286,7 @@ export const formSchema: FormSchema[] = [
     field: 'validUpperLimit',
      component: 'JSwitch',
      componentProps:{
+         options:[1,0]
      },
   },
   {
@@ -298,6 +294,7 @@ export const formSchema: FormSchema[] = [
     field: 'closeAutoPush',
      component: 'JSwitch',
      componentProps:{
+         options:[1,0]
      },
   },
   {
@@ -305,6 +302,7 @@ export const formSchema: FormSchema[] = [
     field: 'closeAutoRefund',
      component: 'JSwitch',
      componentProps:{
+         options:[1,0]
      },
   },
   {
@@ -312,6 +310,7 @@ export const formSchema: FormSchema[] = [
     field: 'shelf',
      component: 'JSwitch',
      componentProps:{
+         options:[1,0]
      },
   },
   {
@@ -319,6 +318,7 @@ export const formSchema: FormSchema[] = [
     field: 'showQuota',
      component: 'JSwitch',
      componentProps:{
+         options:[1,0]
      },
   },
   {
@@ -326,6 +326,7 @@ export const formSchema: FormSchema[] = [
     field: 'showAct',
      component: 'JSwitch',
      componentProps:{
+         options:[1,0]
      },
   },
   {
@@ -333,6 +334,7 @@ export const formSchema: FormSchema[] = [
     field: 'presale',
      component: 'JSwitch',
      componentProps:{
+         options:[1,0]
      },
   },
   {
@@ -340,6 +342,7 @@ export const formSchema: FormSchema[] = [
     field: 'collectEvaluateImg',
      component: 'JSwitch',
      componentProps:{
+         options:[1,0]
      },
   },
   {
@@ -347,6 +350,7 @@ export const formSchema: FormSchema[] = [
     field: 'collectTrafficNo',
      component: 'JSwitch',
      componentProps:{
+         options:[1,0]
      },
   },
   {
@@ -354,6 +358,7 @@ export const formSchema: FormSchema[] = [
     field: 'shuahuo',
      component: 'JSwitch',
      componentProps:{
+         options:[1,0]
      },
   },
   {
@@ -361,6 +366,7 @@ export const formSchema: FormSchema[] = [
     field: 'settlement',
      component: 'JSwitch',
      componentProps:{
+         options:[1,0]
      },
   },
   {
@@ -408,19 +414,6 @@ export const formSchema: FormSchema[] = [
 	},
 ];
 //子表单数据
-//子表列表数据
-export const uporderProductMediumTextColumns: BasicColumn[] = [
-   {
-    title: '下单方案',
-    align:"center",
-    dataIndex: 'planHtml'
-   },
-   {
-    title: '弹框提示',
-    align:"center",
-    dataIndex: 'reportPopupsTip'
-   },
-];
 export const uporderProductMediumTextFormSchema: FormSchema[] = [
   {
     label: '下单方案',
@@ -449,25 +442,14 @@ export const uporderProductMediumTextFormSchema: FormSchema[] = [
 	  show: false
 	},
 ];
-//子表列表数据
-export const uporderProductTypeRefundConfigColumns: BasicColumn[] = [
-   {
-    title: '用户类型id',
-    align:"center",
-    dataIndex: 'typeId'
-   },
-   {
-    title: '折扣',
-    align:"center",
-    dataIndex: 'discount'
-   },
-];
 //子表表格配置
-export const uporderProductTypeRefundConfigJVxeColumns: JVxeColumn[] = [
+export const uporderProductTypeRefundConfigColumns: JVxeColumn[] = [
     {
       title: '用户类型id',
       key: 'typeId',
-      type: JVxeTypes.input,
+      type: JVxeTypes.select,
+      options:[],
+      dictCode:"uporder_user_type,account_type,id",
       width:"200px",
       placeholder: '请输入${title}',
       defaultValue:'',
@@ -484,6 +466,104 @@ export const uporderProductTypeRefundConfigJVxeColumns: JVxeColumn[] = [
       defaultValue:'',
     },
   ]
+export const uporderProductDefineFieldColumns: JVxeColumn[] = [
+    {
+      title: '字段名',
+      key: 'fieldName',
+      type: JVxeTypes.input,
+      width:"200px",
+      placeholder: '请输入${title}',
+      defaultValue:'',
+    },
+    {
+      title: '字段类型',
+      key: 'fieldType',
+      type: JVxeTypes.select,
+      options:[],
+      dictCode:"field_type",
+      width:"200px",
+      placeholder: '请输入${title}',
+      defaultValue:'',
+    },
+    {
+      title: '字段标签',
+      key: 'fieldLabel',
+      type: JVxeTypes.input,
+      width:"200px",
+      placeholder: '请输入${title}',
+      defaultValue:'',
+    },
+    {
+      title: '是否必填',
+      key: 'required',
+      type: JVxeTypes.checkbox,
+      customValue: [1,0],
+      width:"200px",
+      placeholder: '请输入${title}',
+      defaultValue:'',
+    },
+    {
+      title: '可选值',
+      key: 'optionValue',
+      type: JVxeTypes.input,
+      width:"200px",
+      placeholder: '请输入${title}',
+      defaultValue:'',
+    },
+  ]
+export const uporderProductUserLimitColumns: JVxeColumn[] = [
+    {
+      title: '用户id',
+      key: 'userId',
+      type: JVxeTypes.select,
+      options:[],
+      dictCode:"uporder_user,account,id",
+      width:"200px",
+      placeholder: '请输入${title}',
+      defaultValue:'',
+        validateRules: [
+          { required: true, message: '${title}不能为空' },
+        ],
+    },
+    {
+      title: '账号额度',
+      key: 'limitAmount',
+      type: JVxeTypes.inputNumber,
+      width:"200px",
+      placeholder: '请输入${title}',
+      defaultValue:'',
+        validateRules: [
+          { required: true, message: '${title}不能为空' },
+        ],
+    },
+    {
+      title: '折扣',
+      key: 'discount',
+      type: JVxeTypes.inputNumber,
+      width:"200px",
+      placeholder: '请输入${title}',
+      defaultValue:'',
+    },
+  ]
+export const uporderProductBuyLinkColumns: JVxeColumn[] = [
+    {
+      title: '链接名',
+      key: 'linkName',
+      type: JVxeTypes.input,
+      width:"200px",
+      placeholder: '请输入${title}',
+      defaultValue:'',
+    },
+    {
+      title: '链接地址',
+      key: 'linkUrl',
+      type: JVxeTypes.input,
+      width:"200px",
+      placeholder: '请输入${title}',
+      defaultValue:'',
+    },
+  ]
+
 
 // 高级查询数据
 export const superQuerySchema = {
@@ -491,17 +571,17 @@ export const superQuerySchema = {
   productName: {title: '产品名',order: 1,view: 'text', type: 'string',},
   totalLimitMoney: {title: '总额度',order: 2,view: 'number', type: 'number',},
   leftLimitMoney: {title: '剩余额度',order: 6,view: 'number', type: 'number',},
-  inRefundCalWay: {title: '返款计算方式',order: 7,view: 'number', type: 'number',dictCode: 'refund_cal_way',},
+  refundCalWay: {title: '返款计算方式',order: 7,view: 'number', type: 'number',dictCode: 'refund_cal_way',},
   taxRate: {title: '税率',order: 9,view: 'number', type: 'number',},
   inDiscount: {title: '进价成本',order: 10,view: 'number', type: 'number',},
-  shelf: {title: '上架状态',order: 16,view: 'switch', type: 'string',},
-  showQuota: {title: '是否显示配额',order: 17,view: 'switch', type: 'string',},
-  showAct: {title: '是否活动页显示',order: 18,view: 'switch', type: 'string',},
-  presale: {title: '是否预售',order: 19,view: 'switch', type: 'string',},
-  collectEvaluateImg: {title: '是否收集评价图',order: 20,view: 'switch', type: 'string',},
-  collectTrafficNo: {title: '是否收集物流单号',order: 21,view: 'switch', type: 'string',},
-  shuahuo: {title: '是否刷货产品',order: 22,view: 'switch', type: 'string',},
-  settlement: {title: '是否完结',order: 23,view: 'switch', type: 'string',},
+  shelf: {title: '上架状态',order: 16,view: 'number', type: 'number',},
+  showQuota: {title: '是否显示配额',order: 17,view: 'number', type: 'number',},
+  showAct: {title: '是否活动页显示',order: 18,view: 'number', type: 'number',},
+  presale: {title: '是否预售',order: 19,view: 'number', type: 'number',},
+  collectEvaluateImg: {title: '是否收集评价图',order: 20,view: 'number', type: 'number',},
+  collectTrafficNo: {title: '是否收集物流单号',order: 21,view: 'number', type: 'number',},
+  shuahuo: {title: '是否刷货产品',order: 22,view: 'number', type: 'number',},
+  settlement: {title: '是否完结',order: 23,view: 'number', type: 'number',},
   maxReportInterval: {title: '最大报单时间',order: 24,view: 'number', type: 'number',},
   starTime: {title: '开始报单时间',order: 26,view: 'datetime', type: 'string',},
   endTime: {title: '结束报单时间',order: 27,view: 'datetime', type: 'string',},
@@ -510,16 +590,32 @@ export const superQuerySchema = {
     title: '产品文本表',
     view: 'table',
     fields: {
-        planHtml: {title: '下单方案',order: 0,view: 'textarea', type: 'string',},
-        reportPopupsTip: {title: '弹框提示',order: 1,view: 'textarea', type: 'string',},
     }
   },
   uporderProductTypeRefundConfig: {
     title: '产品用户类型折扣表',
     view: 'table',
     fields: {
-        typeId: {title: '用户类型id',order: 0,view: 'text', type: 'string',},
+        typeId: {title: '用户类型id',order: 0,view: 'list', type: 'string',dictTable: "uporder_user_type", dictCode: 'id', dictText: 'account_type',},
         discount: {title: '折扣',order: 1,view: 'number', type: 'number',},
+    }
+  },
+  uporderProductDefineField: {
+    title: '产品自定义字段表',
+    view: 'table',
+    fields: {
+    }
+  },
+  uporderProductUserLimit: {
+    title: '报单产品用户额度表',
+    view: 'table',
+    fields: {
+    }
+  },
+  uporderProductBuyLink: {
+    title: '报单产品购买链接',
+    view: 'table',
+    fields: {
     }
   },
 };
@@ -529,6 +625,6 @@ export const superQuerySchema = {
 * @param param
 */
 export function getBpmFormSchema(_formData): FormSchema[]{
-  // 默认和原始表单保持一致 如果流程中配置了权限数据，这里需要单独处理formSchema
+// 默认和原始表单保持一致 如果流程中配置了权限数据，这里需要单独处理formSchema
   return formSchema;
 }

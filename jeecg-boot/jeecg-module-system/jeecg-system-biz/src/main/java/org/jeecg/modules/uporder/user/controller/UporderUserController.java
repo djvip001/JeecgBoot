@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.system.query.QueryRuleEnum;
@@ -61,6 +63,8 @@ public class UporderUserController extends JeecgController<UporderUser, IUporder
         customeRuleMap.put("accountType", QueryRuleEnum.LIKE_WITH_OR);
         customeRuleMap.put("status", QueryRuleEnum.LIKE_WITH_OR);
         QueryWrapper<UporderUser> queryWrapper = QueryGenerator.initQueryWrapper(uporderUser, req.getParameterMap(),customeRuleMap);
+		queryWrapper.apply("1 = 1");
+
 		Page<UporderUser> page = new Page<UporderUser>(pageNo, pageSize);
 		IPage<UporderUser> pageList = uporderUserService.page(page, queryWrapper);
 		return Result.OK(pageList);
@@ -168,4 +172,31 @@ public class UporderUserController extends JeecgController<UporderUser, IUporder
         return super.importExcel(request, response, UporderUser.class);
     }
 
-}
+	 @ApiOperation(value="报单用户表-已删除分页列表查询", notes="报单用户表-已删除分页列表查询")
+	 @GetMapping(value = "/dellist")
+	 public Result<IPage<UporderUser>> queryDelPageList(UporderUser uporderUser,
+													 @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+													 @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+													 HttpServletRequest req) {
+//		 // 自定义查询规则
+		 Map<String, QueryRuleEnum> customeRuleMap = new HashMap<>();
+//		 // 自定义多选的查询规则为：LIKE_WITH_OR
+		 customeRuleMap.put("accountType", QueryRuleEnum.LIKE_WITH_OR);
+		 customeRuleMap.put("status", QueryRuleEnum.LIKE_WITH_OR);
+		 QueryWrapper<UporderUser> queryWrapper = QueryGenerator.initQueryWrapper(uporderUser, req.getParameterMap(),customeRuleMap);
+		 Page<UporderUser> page = new Page<UporderUser>(pageNo, pageSize);
+		 IPage<UporderUser> pageList = uporderUserService.delList(page, queryWrapper);
+		 return Result.OK(pageList);
+	 }
+
+	 @AutoLog(value = "报单用户表-恢复")
+	 @ApiOperation(value="报单用户表-恢复", notes="报单用户表-恢复")
+	 @RequiresPermissions("uporderUser:uporder_user:recover")
+	 @RequestMapping(value = "/recover", method = {RequestMethod.PUT,RequestMethod.POST})
+	 public Result<String> recover( String id) {
+		 uporderUserService.recover(id);
+		 return Result.OK("编辑成功!");
+	 }
+
+
+ }

@@ -1,17 +1,17 @@
 package org.jeecg.modules.uporder.product.mapper;
 
 import java.util.List;
-import org.jeecg.modules.uporder.product.entity.UporderProductTypeRefundConfig;
+import org.jeecg.modules.uporder.product.entity.UporderProductBuyLink;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * @Description: 产品用户类型折扣表
+ * @Description: 报单产品购买链接
  * @Author: jeecg-boot
  * @Date:   2024-11-21
  * @Version: V1.0
  */
-public interface UporderProductTypeRefundConfigMapper extends BaseMapper<UporderProductTypeRefundConfig> {
+public interface UporderProductBuyLinkMapper extends BaseMapper<UporderProductBuyLink> {
 
 	/**
 	 * 通过主表id删除子表数据
@@ -25,7 +25,7 @@ public interface UporderProductTypeRefundConfigMapper extends BaseMapper<Uporder
    * 通过主表id查询子表数据
    *
    * @param mainId 主表id
-   * @return List<UporderProductTypeRefundConfig>
+   * @return List<UporderProductBuyLink>
    */
-	public List<UporderProductTypeRefundConfig> selectByMainId(@Param("mainId") String mainId);
+	public List<UporderProductBuyLink> selectByMainId(@Param("mainId") String mainId);
 }

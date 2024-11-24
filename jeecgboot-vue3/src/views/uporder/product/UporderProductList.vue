@@ -1,19 +1,7 @@
 <template>
   <div>
     <!--引用表格-->
-   <BasicTable @register="registerTable" :rowSelection="rowSelection" :expandedRowKeys="expandedRowKeys"  @expand="handleExpand">
-      <!-- 内嵌table区域 begin -->
-           <template #expandedRowRender="{record}">
-             <a-tabs tabPosition="top">
-               <a-tab-pane tab="产品文本表" key="uporderProductMediumText" forceRender>
-                  <uporderProductMediumTextSubTable :id="expandedRowKeys[0]"/>
-               </a-tab-pane>
-               <a-tab-pane tab="产品用户类型折扣表" key="uporderProductTypeRefundConfig" forceRender>
-                  <uporderProductTypeRefundConfigSubTable :id="expandedRowKeys[0]"/>
-               </a-tab-pane>
-             </a-tabs>
-           </template>
-     <!-- 内嵌table区域 end -->
+   <BasicTable @register="registerTable" :rowSelection="rowSelection">
      <!--插槽:table标题-->
       <template #tableTitle>
           <a-button type="primary" v-auth="'product:uporder_product:add'"  @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
@@ -28,7 +16,7 @@
                   </a-menu-item>
                 </a-menu>
               </template>
-              <a-button  v-auth="'product:uporder_product:deleteBatch'">批量操作
+              <a-button v-auth="'product:uporder_product:deleteBatch'">批量操作
                 <Icon icon="mdi:chevron-down"></Icon>
               </a-button>
         </a-dropdown>
@@ -54,18 +42,15 @@
   import { useListPage } from '/@/hooks/system/useListPage'
   import {useModal} from '/@/components/Modal';
   import UporderProductModal from './components/UporderProductModal.vue'
-  import UporderProductMediumTextSubTable from './subTables/UporderProductMediumTextSubTable.vue'
-  import UporderProductTypeRefundConfigSubTable from './subTables/UporderProductTypeRefundConfigSubTable.vue'
   import {columns, searchFormSchema, superQuerySchema} from './UporderProduct.data';
   import {list, deleteOne, batchDelete, getImportUrl,getExportUrl} from './UporderProduct.api';
   import {downloadFile} from '/@/utils/common/renderUtils';
   import { useUserStore } from '/@/store/modules/user';
   const queryParam = reactive<any>({});
-   // 展开key
-  const expandedRowKeys = ref<any[]>([]);
+  const checkedKeys = ref<Array<string | number>>([]);
+  const userStore = useUserStore();
   //注册model
   const [registerModal, {openModal}] = useModal();
-  const userStore = useUserStore();
    //注册table数据
   const { prefixCls,tableContext,onExportXls,onImportXls } = useListPage({
       tableProps:{
@@ -104,28 +89,19 @@
 
   const [registerTable, {reload},{ rowSelection, selectedRowKeys }] = tableContext
 
-   // 高级查询配置
-   const superQueryConfig = reactive(superQuerySchema);
+  // 高级查询配置
+  const superQueryConfig = reactive(superQuerySchema);
 
-   /**
+  /**
    * 高级查询事件
    */
-   function handleSuperQuery(params) {
-     Object.keys(params).map((k) => {
-       queryParam[k] = params[k];
-     });
-     reload();
-   }
+  function handleSuperQuery(params) {
+    Object.keys(params).map((k) => {
+      queryParam[k] = params[k];
+    });
+    reload();
+  }
 
-   /**
-     * 展开事件
-     * */
-   function handleExpand(expanded, record){
-        expandedRowKeys.value=[];
-        if (expanded === true) {
-           expandedRowKeys.value.push(record.id)
-        }
-    }
    /**
     * 新增事件
     */

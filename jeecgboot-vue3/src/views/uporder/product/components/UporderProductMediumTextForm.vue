@@ -1,5 +1,5 @@
 <template>
-    <BasicForm @register="registerForm" name="UporderProductMediumTextForm" class="basic-modal-form" />
+    <BasicForm @register="registerForm" name="UporderProductMediumTextForm" class="basic-modal-form"/>
 </template>
 <script lang="ts">
     import {defineComponent} from 'vue';
@@ -22,7 +22,7 @@
             const [registerForm, { setProps, resetFields, setFieldsValue, getFieldsValue, validate, scrollToField }] = useForm({
                 schemas: uporderProductMediumTextFormSchema,
                 showActionButtonGroup: false,
-                baseColProps: {span: 12}
+                baseColProps: {span: 8}
             });
             /**
             *初始化加载数据
@@ -30,25 +30,23 @@
             function initFormData(url,id){
                 if(id){
                      defHttp.get({url,params:{id}},{isTransformResponse:false}).then(res=>{
-                       res.success && setFieldsValue({...res.result.records[0]});
+                       res.success && setFieldsValue({...res.result[0]});
                     })
                 }
                 setProps({disabled: props.disabled})
             }
-
-            /**
-             *获取表单数据
-             */
+           /**
+            *获取表单数据
+            */
             function getFormData(){
-                let formData = getFieldsValue();
-                Object.keys(formData).map(k=>{
+               let formData = getFieldsValue();
+               Object.keys(formData).map(k=>{
                     if(formData[k] instanceof Array){
                         formData[k] = formData[k].join(',')
                     }
-                });
-                return [formData];
+               });
+               return [formData];
             }
-
             /**
             *表单校验
             */
@@ -57,9 +55,9 @@
                     // 验证子表表单
                     validate().then(()=>{
                         return resolve()
-                    }).catch(({ errorFields })=> {
-                        return reject({ error: VALIDATE_FAILED ,index, errorFields: errorFields, scrollToField: scrollToField })
-                    })
+                    }).catch(({ errorFields }) => {
+                      return reject({ error: VALIDATE_FAILED, index, errorFields: errorFields, scrollToField: scrollToField });
+                    });
                 })
             }
             return {

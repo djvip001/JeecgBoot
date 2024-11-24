@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.jeecg.modules.uporder.product.entity.UporderProductMediumText;
 import org.jeecg.modules.uporder.product.entity.UporderProductTypeRefundConfig;
+import org.jeecg.modules.uporder.product.entity.UporderProductDefineField;
+import org.jeecg.modules.uporder.product.entity.UporderProductUserLimit;
+import org.jeecg.modules.uporder.product.entity.UporderProductBuyLink;
 import lombok.Data;
 import org.jeecgframework.poi.excel.annotation.Excel;
 import org.jeecgframework.poi.excel.annotation.ExcelCollection;
@@ -16,7 +19,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * @Description: 产品表
  * @Author: jeecg-boot
- * @Date:   2024-11-19
+ * @Date:   2024-11-21
  * @Version: V1.0
  */
 @Data
@@ -59,7 +62,7 @@ public class UporderProductPage {
 	@Excel(name = "返款计算方式", width = 15, dicCode = "refund_cal_way")
     @Dict(dicCode = "refund_cal_way")
 	@ApiModelProperty(value = "返款计算方式")
-    private java.lang.Integer inRefundCalWay;
+    private java.lang.Integer refundCalWay;
 	/**默认成本*/
 	@Excel(name = "默认成本", width = 15)
 	@ApiModelProperty(value = "默认成本")
@@ -83,48 +86,48 @@ public class UporderProductPage {
     private java.lang.String upperReportUrl;
 	/**是否跟上级额度*/
 	@ApiModelProperty(value = "是否跟上级额度")
-    @Excel(name = "是否跟上级额度", width = 15,replace = {"是_Y","否_N"} )
-    private java.lang.String validUpperLimit;
+    @Excel(name = "是否跟上级额度", width = 15,replace = {"是_1","否_0"} )
+    private java.lang.Integer validUpperLimit;
 	/**关闭自动推单*/
 	@ApiModelProperty(value = "关闭自动推单")
-    @Excel(name = "关闭自动推单", width = 15,replace = {"是_Y","否_N"} )
-    private java.lang.String closeAutoPush;
+    @Excel(name = "关闭自动推单", width = 15,replace = {"是_1","否_0"} )
+    private java.lang.Integer closeAutoPush;
 	/**关闭自动申请返款*/
 	@ApiModelProperty(value = "关闭自动申请返款")
-    @Excel(name = "关闭自动申请返款", width = 15,replace = {"是_Y","否_N"} )
-    private java.lang.String closeAutoRefund;
+    @Excel(name = "关闭自动申请返款", width = 15,replace = {"是_1","否_0"} )
+    private java.lang.Integer closeAutoRefund;
 	/**上架状态*/
 	@ApiModelProperty(value = "上架状态")
-    @Excel(name = "上架状态", width = 15,replace = {"是_Y","否_N"} )
-    private java.lang.String shelf;
+    @Excel(name = "上架状态", width = 15,replace = {"是_1","否_0"} )
+    private java.lang.Integer shelf;
 	/**是否显示配额*/
 	@ApiModelProperty(value = "是否显示配额")
-    @Excel(name = "是否显示配额", width = 15,replace = {"是_Y","否_N"} )
-    private java.lang.String showQuota;
+    @Excel(name = "是否显示配额", width = 15,replace = {"是_1","否_0"} )
+    private java.lang.Integer showQuota;
 	/**是否活动页显示*/
 	@ApiModelProperty(value = "是否活动页显示")
-    @Excel(name = "是否活动页显示", width = 15,replace = {"是_Y","否_N"} )
-    private java.lang.String showAct;
+    @Excel(name = "是否活动页显示", width = 15,replace = {"是_1","否_0"} )
+    private java.lang.Integer showAct;
 	/**是否预售*/
 	@ApiModelProperty(value = "是否预售")
-    @Excel(name = "是否预售", width = 15,replace = {"是_Y","否_N"} )
-    private java.lang.String presale;
+    @Excel(name = "是否预售", width = 15,replace = {"是_1","否_0"} )
+    private java.lang.Integer presale;
 	/**是否收集评价图*/
 	@ApiModelProperty(value = "是否收集评价图")
-    @Excel(name = "是否收集评价图", width = 15,replace = {"是_Y","否_N"} )
-    private java.lang.String collectEvaluateImg;
+    @Excel(name = "是否收集评价图", width = 15,replace = {"是_1","否_0"} )
+    private java.lang.Integer collectEvaluateImg;
 	/**是否收集物流单号*/
 	@ApiModelProperty(value = "是否收集物流单号")
-    @Excel(name = "是否收集物流单号", width = 15,replace = {"是_Y","否_N"} )
-    private java.lang.String collectTrafficNo;
+    @Excel(name = "是否收集物流单号", width = 15,replace = {"是_1","否_0"} )
+    private java.lang.Integer collectTrafficNo;
 	/**是否刷货产品*/
 	@ApiModelProperty(value = "是否刷货产品")
-    @Excel(name = "是否刷货产品", width = 15,replace = {"是_Y","否_N"} )
-    private java.lang.String shuahuo;
+    @Excel(name = "是否刷货产品", width = 15,replace = {"是_1","否_0"} )
+    private java.lang.Integer shuahuo;
 	/**是否完结*/
 	@ApiModelProperty(value = "是否完结")
-    @Excel(name = "是否完结", width = 15,replace = {"是_Y","否_N"} )
-    private java.lang.String settlement;
+    @Excel(name = "是否完结", width = 15,replace = {"是_1","否_0"} )
+    private java.lang.Integer settlement;
 	/**最大报单时间*/
 	@Excel(name = "最大报单时间", width = 15)
 	@ApiModelProperty(value = "最大报单时间")
@@ -169,12 +172,21 @@ public class UporderProductPage {
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	@ApiModelProperty(value = "更新日期")
     private java.util.Date updateTime;
-	
+
 	@ExcelCollection(name="产品文本表")
 	@ApiModelProperty(value = "产品文本表")
 	private List<UporderProductMediumText> uporderProductMediumTextList;
 	@ExcelCollection(name="产品用户类型折扣表")
 	@ApiModelProperty(value = "产品用户类型折扣表")
 	private List<UporderProductTypeRefundConfig> uporderProductTypeRefundConfigList;
-	
+	@ExcelCollection(name="产品自定义字段表")
+	@ApiModelProperty(value = "产品自定义字段表")
+	private List<UporderProductDefineField> uporderProductDefineFieldList;
+	@ExcelCollection(name="报单产品用户额度表")
+	@ApiModelProperty(value = "报单产品用户额度表")
+	private List<UporderProductUserLimit> uporderProductUserLimitList;
+	@ExcelCollection(name="报单产品购买链接")
+	@ApiModelProperty(value = "报单产品购买链接")
+	private List<UporderProductBuyLink> uporderProductBuyLinkList;
+
 }

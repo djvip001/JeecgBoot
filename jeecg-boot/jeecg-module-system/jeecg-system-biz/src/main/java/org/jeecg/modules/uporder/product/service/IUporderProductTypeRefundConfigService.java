@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @Description: 产品用户类型折扣表
  * @Author: jeecg-boot
- * @Date:   2024-11-19
+ * @Date:   2024-11-21
  * @Version: V1.0
  */
 public interface IUporderProductTypeRefundConfigService extends IService<UporderProductTypeRefundConfig> {

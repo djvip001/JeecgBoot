@@ -23,11 +23,17 @@ import org.jeecg.common.system.query.QueryRuleEnum;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.uporder.product.entity.UporderProductMediumText;
 import org.jeecg.modules.uporder.product.entity.UporderProductTypeRefundConfig;
+import org.jeecg.modules.uporder.product.entity.UporderProductDefineField;
+import org.jeecg.modules.uporder.product.entity.UporderProductUserLimit;
+import org.jeecg.modules.uporder.product.entity.UporderProductBuyLink;
 import org.jeecg.modules.uporder.product.entity.UporderProduct;
 import org.jeecg.modules.uporder.product.vo.UporderProductPage;
 import org.jeecg.modules.uporder.product.service.IUporderProductService;
 import org.jeecg.modules.uporder.product.service.IUporderProductMediumTextService;
 import org.jeecg.modules.uporder.product.service.IUporderProductTypeRefundConfigService;
+import org.jeecg.modules.uporder.product.service.IUporderProductDefineFieldService;
+import org.jeecg.modules.uporder.product.service.IUporderProductUserLimitService;
+import org.jeecg.modules.uporder.product.service.IUporderProductBuyLinkService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -42,10 +48,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+
+
  /**
  * @Description: 产品表
  * @Author: jeecg-boot
- * @Date:   2024-11-19
+ * @Date:   2024-11-21
  * @Version: V1.0
  */
 @Api(tags="产品表")
@@ -59,6 +67,12 @@ public class UporderProductController {
 	private IUporderProductMediumTextService uporderProductMediumTextService;
 	@Autowired
 	private IUporderProductTypeRefundConfigService uporderProductTypeRefundConfigService;
+	@Autowired
+	private IUporderProductDefineFieldService uporderProductDefineFieldService;
+	@Autowired
+	private IUporderProductUserLimitService uporderProductUserLimitService;
+	@Autowired
+	private IUporderProductBuyLinkService uporderProductBuyLinkService;
 	
 	/**
 	 * 分页列表查询
@@ -76,11 +90,10 @@ public class UporderProductController {
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
-       // 自定义查询规则
-       Map<String, QueryRuleEnum> customeRuleMap = new HashMap<>();
-       // 自定义多选的查询规则为：LIKE_WITH_OR
-       customeRuleMap.put("projectId", QueryRuleEnum.LIKE_WITH_OR);
-       customeRuleMap.put("upperConfigId", QueryRuleEnum.LIKE_WITH_OR);
+        // 自定义查询规则
+        Map<String, QueryRuleEnum> customeRuleMap = new HashMap<>();
+        // 自定义多选的查询规则为：LIKE_WITH_OR
+        customeRuleMap.put("projectId", QueryRuleEnum.LIKE_WITH_OR);
         QueryWrapper<UporderProduct> queryWrapper = QueryGenerator.initQueryWrapper(uporderProduct, req.getParameterMap(),customeRuleMap);
 		Page<UporderProduct> page = new Page<UporderProduct>(pageNo, pageSize);
 		IPage<UporderProduct> pageList = uporderProductService.page(page, queryWrapper);
@@ -100,7 +113,7 @@ public class UporderProductController {
 	public Result<String> add(@RequestBody UporderProductPage uporderProductPage) {
 		UporderProduct uporderProduct = new UporderProduct();
 		BeanUtils.copyProperties(uporderProductPage, uporderProduct);
-		uporderProductService.saveMain(uporderProduct, uporderProductPage.getUporderProductMediumTextList(),uporderProductPage.getUporderProductTypeRefundConfigList());
+		uporderProductService.saveMain(uporderProduct, uporderProductPage.getUporderProductMediumTextList(),uporderProductPage.getUporderProductTypeRefundConfigList(),uporderProductPage.getUporderProductDefineFieldList(),uporderProductPage.getUporderProductUserLimitList(),uporderProductPage.getUporderProductBuyLinkList());
 		return Result.OK("添加成功！");
 	}
 	
@@ -121,7 +134,7 @@ public class UporderProductController {
 		if(uporderProductEntity==null) {
 			return Result.error("未找到对应数据");
 		}
-		uporderProductService.updateMain(uporderProduct, uporderProductPage.getUporderProductMediumTextList(),uporderProductPage.getUporderProductTypeRefundConfigList());
+		uporderProductService.updateMain(uporderProduct, uporderProductPage.getUporderProductMediumTextList(),uporderProductPage.getUporderProductTypeRefundConfigList(),uporderProductPage.getUporderProductDefineFieldList(),uporderProductPage.getUporderProductUserLimitList(),uporderProductPage.getUporderProductBuyLinkList());
 		return Result.OK("编辑成功!");
 	}
 	
@@ -179,15 +192,12 @@ public class UporderProductController {
 	 * @param id
 	 * @return
 	 */
-	//@AutoLog(value = "产品文本表-通过主表ID查询")
-	@ApiOperation(value="产品文本表-通过主表ID查询", notes="产品文本表-通过主表ID查询")
+	//@AutoLog(value = "产品文本表通过主表ID查询")
+	@ApiOperation(value="产品文本表主表ID查询", notes="产品文本表-通主表ID查询")
 	@GetMapping(value = "/queryUporderProductMediumTextByMainId")
-	public Result<IPage<UporderProductMediumText>> queryUporderProductMediumTextListByMainId(@RequestParam(name="id",required=true) String id) {
+	public Result<List<UporderProductMediumText>> queryUporderProductMediumTextListByMainId(@RequestParam(name="id",required=true) String id) {
 		List<UporderProductMediumText> uporderProductMediumTextList = uporderProductMediumTextService.selectByMainId(id);
-		IPage <UporderProductMediumText> page = new Page<>();
-		page.setRecords(uporderProductMediumTextList);
-		page.setTotal(uporderProductMediumTextList.size());
-		return Result.OK(page);
+		return Result.OK(uporderProductMediumTextList);
 	}
 	/**
 	 * 通过id查询
@@ -195,15 +205,51 @@ public class UporderProductController {
 	 * @param id
 	 * @return
 	 */
-	//@AutoLog(value = "产品用户类型折扣表-通过主表ID查询")
-	@ApiOperation(value="产品用户类型折扣表-通过主表ID查询", notes="产品用户类型折扣表-通过主表ID查询")
+	//@AutoLog(value = "产品用户类型折扣表通过主表ID查询")
+	@ApiOperation(value="产品用户类型折扣表主表ID查询", notes="产品用户类型折扣表-通主表ID查询")
 	@GetMapping(value = "/queryUporderProductTypeRefundConfigByMainId")
-	public Result<IPage<UporderProductTypeRefundConfig>> queryUporderProductTypeRefundConfigListByMainId(@RequestParam(name="id",required=true) String id) {
+	public Result<List<UporderProductTypeRefundConfig>> queryUporderProductTypeRefundConfigListByMainId(@RequestParam(name="id",required=true) String id) {
 		List<UporderProductTypeRefundConfig> uporderProductTypeRefundConfigList = uporderProductTypeRefundConfigService.selectByMainId(id);
-		IPage <UporderProductTypeRefundConfig> page = new Page<>();
-		page.setRecords(uporderProductTypeRefundConfigList);
-		page.setTotal(uporderProductTypeRefundConfigList.size());
-		return Result.OK(page);
+		return Result.OK(uporderProductTypeRefundConfigList);
+	}
+	/**
+	 * 通过id查询
+	 *
+	 * @param id
+	 * @return
+	 */
+	//@AutoLog(value = "产品自定义字段表通过主表ID查询")
+	@ApiOperation(value="产品自定义字段表主表ID查询", notes="产品自定义字段表-通主表ID查询")
+	@GetMapping(value = "/queryUporderProductDefineFieldByMainId")
+	public Result<List<UporderProductDefineField>> queryUporderProductDefineFieldListByMainId(@RequestParam(name="id",required=true) String id) {
+		List<UporderProductDefineField> uporderProductDefineFieldList = uporderProductDefineFieldService.selectByMainId(id);
+		return Result.OK(uporderProductDefineFieldList);
+	}
+	/**
+	 * 通过id查询
+	 *
+	 * @param id
+	 * @return
+	 */
+	//@AutoLog(value = "报单产品用户额度表通过主表ID查询")
+	@ApiOperation(value="报单产品用户额度表主表ID查询", notes="报单产品用户额度表-通主表ID查询")
+	@GetMapping(value = "/queryUporderProductUserLimitByMainId")
+	public Result<List<UporderProductUserLimit>> queryUporderProductUserLimitListByMainId(@RequestParam(name="id",required=true) String id) {
+		List<UporderProductUserLimit> uporderProductUserLimitList = uporderProductUserLimitService.selectByMainId(id);
+		return Result.OK(uporderProductUserLimitList);
+	}
+	/**
+	 * 通过id查询
+	 *
+	 * @param id
+	 * @return
+	 */
+	//@AutoLog(value = "报单产品购买链接通过主表ID查询")
+	@ApiOperation(value="报单产品购买链接主表ID查询", notes="报单产品购买链接-通主表ID查询")
+	@GetMapping(value = "/queryUporderProductBuyLinkByMainId")
+	public Result<List<UporderProductBuyLink>> queryUporderProductBuyLinkListByMainId(@RequestParam(name="id",required=true) String id) {
+		List<UporderProductBuyLink> uporderProductBuyLinkList = uporderProductBuyLinkService.selectByMainId(id);
+		return Result.OK(uporderProductBuyLinkList);
 	}
 
     /**
@@ -219,14 +265,14 @@ public class UporderProductController {
       QueryWrapper<UporderProduct> queryWrapper = QueryGenerator.initQueryWrapper(uporderProduct, request.getParameterMap());
       LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
 
-     //配置选中数据查询条件
+      //配置选中数据查询条件
       String selections = request.getParameter("selections");
       if(oConvertUtils.isNotEmpty(selections)) {
-           List<String> selectionList = Arrays.asList(selections.split(","));
-           queryWrapper.in("id",selectionList);
+         List<String> selectionList = Arrays.asList(selections.split(","));
+         queryWrapper.in("id",selectionList);
       }
       //Step.2 获取导出数据
-      List<UporderProduct>  uporderProductList = uporderProductService.list(queryWrapper);
+      List<UporderProduct> uporderProductList = uporderProductService.list(queryWrapper);
 
       // Step.3 组装pageList
       List<UporderProductPage> pageList = new ArrayList<UporderProductPage>();
@@ -237,6 +283,12 @@ public class UporderProductController {
           vo.setUporderProductMediumTextList(uporderProductMediumTextList);
           List<UporderProductTypeRefundConfig> uporderProductTypeRefundConfigList = uporderProductTypeRefundConfigService.selectByMainId(main.getId());
           vo.setUporderProductTypeRefundConfigList(uporderProductTypeRefundConfigList);
+          List<UporderProductDefineField> uporderProductDefineFieldList = uporderProductDefineFieldService.selectByMainId(main.getId());
+          vo.setUporderProductDefineFieldList(uporderProductDefineFieldList);
+          List<UporderProductUserLimit> uporderProductUserLimitList = uporderProductUserLimitService.selectByMainId(main.getId());
+          vo.setUporderProductUserLimitList(uporderProductUserLimitList);
+          List<UporderProductBuyLink> uporderProductBuyLinkList = uporderProductBuyLinkService.selectByMainId(main.getId());
+          vo.setUporderProductBuyLinkList(uporderProductBuyLinkList);
           pageList.add(vo);
       }
 
@@ -273,7 +325,7 @@ public class UporderProductController {
               for (UporderProductPage page : list) {
                   UporderProduct po = new UporderProduct();
                   BeanUtils.copyProperties(page, po);
-                  uporderProductService.saveMain(po, page.getUporderProductMediumTextList(),page.getUporderProductTypeRefundConfigList());
+                  uporderProductService.saveMain(po, page.getUporderProductMediumTextList(),page.getUporderProductTypeRefundConfigList(),page.getUporderProductDefineFieldList(),page.getUporderProductUserLimitList(),page.getUporderProductBuyLinkList());
               }
               return Result.OK("文件导入成功！数据行数:" + list.size());
           } catch (Exception e) {
@@ -290,4 +342,29 @@ public class UporderProductController {
       return Result.OK("文件导入失败！");
     }
 
+	 @ApiOperation(value="产品表-已删除分页列表查询", notes="产品表-已删除分页列表查询")
+	 @GetMapping(value = "/dellist")
+	 public Result<IPage<UporderProduct>> dellist(UporderProduct uporderProduct,
+														@RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+														@RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+														HttpServletRequest req) {
+		 // 自定义查询规则
+		 Map<String, QueryRuleEnum> customeRuleMap = new HashMap<>();
+		 // 自定义多选的查询规则为：LIKE_WITH_OR
+		 customeRuleMap.put("projectId", QueryRuleEnum.LIKE_WITH_OR);
+		 QueryWrapper<UporderProduct> queryWrapper = QueryGenerator.initQueryWrapper(uporderProduct, req.getParameterMap(),customeRuleMap);
+		 Page<UporderProduct> page = new Page<UporderProduct>(pageNo, pageSize);
+		 IPage<UporderProduct> pageList = uporderProductService.delList(page, queryWrapper);
+		 return Result.OK(pageList);
+	 }
+
+
+	 @AutoLog(value = "产品表-恢复")
+	 @ApiOperation(value="产品表-恢复", notes="产品表-恢复")
+	 @RequiresPermissions("product:uporder_product:recover")
+	 @RequestMapping(value = "/recover", method = {RequestMethod.PUT,RequestMethod.POST})
+	 public Result<String> recover( String id) {
+		 uporderProductService.recover(id);
+		 return Result.OK("编辑成功!");
+	 }
 }

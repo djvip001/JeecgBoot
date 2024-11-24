@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 /**
  * @Description: 产品文本表
  * @Author: jeecg-boot
- * @Date:   2024-11-19
+ * @Date:   2024-11-21
  * @Version: V1.0
  */
 public interface UporderProductMediumTextMapper extends BaseMapper<UporderProductMediumText> {

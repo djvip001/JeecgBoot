@@ -208,7 +208,7 @@ export const superQuerySchema = {
   alipayName: {title: '支付宝姓名',order: 4,view: 'text', type: 'string',},
   wechatAccount: {title: '微信账号',order: 5,view: 'text', type: 'string',},
   wechatName: {title: '微信昵称',order: 6,view: 'text', type: 'string',},
-  lastOrderTime: {title: '最后报单时间',order: 7,view: 'datetime', type: 'string',},
+  //lastOrderTime: {title: '最后报单时间',order: 7,view: 'datetime', type: 'string',},
   status: {title: '状态',order: 8,view: 'number', type: 'number',dictCode: 'upoder_user_status',},
   headImage: {title: '头像',order: 9,view: 'image', type: 'string',},
 };
