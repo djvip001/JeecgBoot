@@ -46,11 +46,14 @@ public class UporderProject implements Serializable {
 	@Excel(name = "项目描述", width = 15)
     @ApiModelProperty(value = "项目描述")
     private java.lang.String projectDesc;
-	/**租户id*/
-	@Excel(name = "租户id", width = 15)
+    /**租户id*/
+    @Excel(name = "租户id", width = 15)
     @ApiModelProperty(value = "租户id")
     private java.lang.String tenantId;
-
+    /**部门*/
+    @Excel(name = "部门", width = 15)
+    @ApiModelProperty(value = "部门")
+    private java.lang.String sysOrgCode;
     /**
      * 删除状态（0，正常，1已删除）
      */

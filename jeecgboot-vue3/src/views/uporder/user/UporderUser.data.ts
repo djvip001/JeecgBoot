@@ -128,7 +128,6 @@ export const formSchema: FormSchema[] = [
   {
     label: '密码',
     field: 'password',
-    defaultValue: "123456",
     component: 'Input',
     dynamicRules: ({model,schema}) => {
           return [

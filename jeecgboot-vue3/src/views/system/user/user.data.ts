@@ -336,6 +336,12 @@ export const formSchema: FormSchema[] = [
       stringToNumber: true,
     },
   },
+  {
+    label: '域名',
+    field: 'domain',
+    component: 'Input',
+    required: true,
+  },
 ];
 
 export const formPasswordSchema: FormSchema[] = [

@@ -71,7 +71,12 @@ public class UporderProductDefineField implements Serializable {
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "更新日期")
     private java.util.Date updateTime;
-	/**所属部门*/
-    @ApiModelProperty(value = "所属部门")
+    /**租户id*/
+    @Excel(name = "租户id", width = 15)
+    @ApiModelProperty(value = "租户id")
+    private java.lang.String tenantId;
+    /**部门*/
+    @Excel(name = "部门", width = 15)
+    @ApiModelProperty(value = "部门")
     private java.lang.String sysOrgCode;
 }

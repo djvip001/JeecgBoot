@@ -10,6 +10,8 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jeecg.common.aspect.annotation.PermissionData;
+import org.jeecg.config.shiro.IgnoreAuth;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -86,6 +88,7 @@ public class UporderProductController {
 	//@AutoLog(value = "产品表-分页列表查询")
 	@ApiOperation(value="产品表-分页列表查询", notes="产品表-分页列表查询")
 	@GetMapping(value = "/list")
+	@PermissionData(pageComponent = "uporder/product/UporderProductList")
 	public Result<IPage<UporderProduct>> queryPageList(UporderProduct uporderProduct,
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
@@ -367,4 +370,26 @@ public class UporderProductController {
 		 uporderProductService.recover(id);
 		 return Result.OK("编辑成功!");
 	 }
-}
+
+
+
+	 @ApiOperation(value="产品表-查询活动页的产品", notes="产品表-已删除分页列表查询")
+	 @GetMapping(value = "/listDoingAction")
+	 @IgnoreAuth
+
+	 public Result<IPage<UporderProduct>> listDoingAction(UporderProduct uporderProduct,
+												  @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+												  @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+												  HttpServletRequest req) {
+		 // 自定义查询规则
+		 Map<String, QueryRuleEnum> customeRuleMap = new HashMap<>();
+		 // 自定义多选的查询规则为：LIKE_WITH_OR
+		 customeRuleMap.put("projectId", QueryRuleEnum.LIKE_WITH_OR);
+		 QueryWrapper<UporderProduct> queryWrapper = QueryGenerator.initQueryWrapper(uporderProduct, req.getParameterMap(),customeRuleMap);
+		 uporderProduct.setShowAct(1);
+		 Page<UporderProduct> page = new Page<UporderProduct>(pageNo, pageSize);
+		 IPage<UporderProduct> pageList = uporderProductService.page(page, queryWrapper);
+		 return Result.OK(pageList);
+	 }
+
+ }

@@ -156,10 +156,14 @@ public class UporderProduct implements Serializable {
 	@Excel(name = "返款规则", width = 15)
     @ApiModelProperty(value = "返款规则")
     private java.lang.String refundRule;
-	/**租户id*/
-	@Excel(name = "租户id", width = 15)
+    /**租户id*/
+    @Excel(name = "租户id", width = 15)
     @ApiModelProperty(value = "租户id")
     private java.lang.String tenantId;
+    /**部门*/
+    @Excel(name = "部门", width = 15)
+    @ApiModelProperty(value = "部门")
+    private java.lang.String sysOrgCode;
     /**删除状态*/
     @Excel(name = "删除状态", width = 15)
     @ApiModelProperty(value = "删除状态")

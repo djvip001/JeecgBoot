@@ -23,4 +23,6 @@ public interface UporderUserMapper extends BaseMapper<UporderUser> {
     void recover(String id );
 
     List<UporderUser> delList(Page<UporderUser> page,@Param(Constants.WRAPPER) QueryWrapper<UporderUser> queryWrapper);
+
+    UporderUser getUserByName(String username);
 }

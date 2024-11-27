@@ -10,4 +10,8 @@
     <update id="recover" >
         update uporder_user set del_flag=0 where id=#{id}
     </update>
+
+    <select id="getUserByName" resultType="org.jeecg.modules.uporder.user.entity.UporderUser">
+        select  * from uporder_user where account=#{username}
+    </select>
 </mapper>

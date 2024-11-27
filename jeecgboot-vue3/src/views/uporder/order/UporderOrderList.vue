@@ -4,9 +4,9 @@
    <BasicTable @register="registerTable" :rowSelection="rowSelection">
      <!--插槽:table标题-->
       <template #tableTitle>
-          <a-button type="primary" v-auth="'uporderUser:uporder_user:add'" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
-          <a-button  type="primary" v-auth="'uporderUser:uporder_user:exportXls'" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-          <j-upload-button type="primary" v-auth="'uporderUser:uporder_user:importExcel'" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
+          <a-button type="primary" v-auth="'order:uporder_order:add'"  @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
+          <a-button  type="primary" v-auth="'order:uporder_order:exportXls'"  preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
+          <j-upload-button  type="primary" v-auth="'order:uporder_order:importExcel'"  preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
           <a-dropdown v-if="selectedRowKeys.length > 0">
               <template #overlay>
                 <a-menu>
@@ -16,7 +16,7 @@
                   </a-menu-item>
                 </a-menu>
               </template>
-              <a-button v-auth="'uporderUser:uporder_user:deleteBatch'">批量操作
+              <a-button v-auth="'order:uporder_order:deleteBatch'">批量操作
                 <Icon icon="mdi:chevron-down"></Icon>
               </a-button>
         </a-dropdown>
@@ -32,61 +32,60 @@
       </template>
     </BasicTable>
     <!-- 表单区域 -->
-    <UporderUserModal @register="registerModal" @success="handleSuccess"></UporderUserModal>
+    <UporderOrderModal @register="registerModal" @success="handleSuccess"></UporderOrderModal>
   </div>
 </template>
 
-<script lang="ts" name="uporderUser-uporderUser" setup>
+<script lang="ts" name="order-uporderOrder" setup>
   import {ref, reactive, computed, unref} from 'vue';
   import {BasicTable, useTable, TableAction} from '/@/components/Table';
-  import {useModal} from '/@/components/Modal';
   import { useListPage } from '/@/hooks/system/useListPage'
-  import UporderUserModal from './components/UporderUserModal.vue'
-  import {columns, searchFormSchema, superQuerySchema} from './UporderUser.data';
-  import {list, deleteOne, batchDelete, getImportUrl,getExportUrl} from './UporderUser.api';
-  import { downloadFile } from '/@/utils/common/renderUtils';
+  import {useModal} from '/@/components/Modal';
+  import UporderOrderModal from './components/UporderOrderModal.vue'
+  import {columns, searchFormSchema, superQuerySchema} from './UporderOrder.data';
+  import {list, deleteOne, batchDelete, getImportUrl,getExportUrl} from './UporderOrder.api';
+  import {downloadFile} from '/@/utils/common/renderUtils';
   import { useUserStore } from '/@/store/modules/user';
   const queryParam = reactive<any>({});
   const checkedKeys = ref<Array<string | number>>([]);
   const userStore = useUserStore();
   //注册model
   const [registerModal, {openModal}] = useModal();
-  //注册table数据
+   //注册table数据
   const { prefixCls,tableContext,onExportXls,onImportXls } = useListPage({
       tableProps:{
-           title: '报单用户表',
+           title: '订单表',
            api: list,
            columns,
            canResize:false,
            formConfig: {
-              //labelWidth: 120,
-              schemas: searchFormSchema,
-              autoSubmitOnEnter:true,
-              showAdvancedButton:true,
-              fieldMapToNumber: [
-              ],
-              fieldMapToTime: [
-                 ['lastOrderTime', ['lastOrderTime_begin', 'lastOrderTime_end'], 'YYYY-MM-DD HH:mm:ss'],
-              ],
+                //labelWidth: 120,
+                schemas: searchFormSchema,
+                autoSubmitOnEnter:true,
+                showAdvancedButton:true,
+                fieldMapToNumber: [
+                ],
+                fieldMapToTime: [
+                ],
             },
            actionColumn: {
                width: 120,
                fixed:'right'
-            },
-            beforeFetch: (params) => {
-              return Object.assign(params, queryParam);
-            },
-      },
-       exportConfig: {
-            name:"报单用户表",
+           },
+           beforeFetch: (params) => {
+             return Object.assign(params, queryParam);
+           },
+        },
+        exportConfig: {
+            name:"订单表",
             url: getExportUrl,
             params: queryParam,
-          },
-          importConfig: {
+        },
+        importConfig: {
             url: getImportUrl,
             success: handleSuccess
-          },
-  })
+        },
+    })
 
   const [registerTable, {reload},{ rowSelection, selectedRowKeys }] = tableContext
 
@@ -102,6 +101,7 @@
     });
     reload();
   }
+
    /**
     * 新增事件
     */
@@ -141,7 +141,7 @@
     * 批量删除事件
     */
   async function batchHandleDelete() {
-     await batchDelete({ids: selectedRowKeys.value}, handleSuccess);
+     await batchDelete({ids: selectedRowKeys.value},handleSuccess);
    }
    /**
     * 成功回调
@@ -157,30 +157,31 @@
          {
            label: '编辑',
            onClick: handleEdit.bind(null, record),
-           auth: 'uporderUser:uporder_user:edit'
-         }
-       ]
-   }
-     /**
-        * 下拉操作栏
-        */
-  function getDropDownAction(record){
-       return [
-         {
-           label: '详情',
-           onClick: handleDetail.bind(null, record),
-         }, {
-           label: '删除',
-           popConfirm: {
-             title: '是否确认删除',
-             confirm: handleDelete.bind(null, record),
-             placement: 'topLeft',
-           },
-           auth: 'uporderUser:uporder_user:delete'
+           auth: 'order:uporder_order:edit'
          }
        ]
    }
 
+
+  /**
+   * 下拉操作栏
+   */
+  function getDropDownAction(record){
+    return [
+      {
+        label: '详情',
+        onClick: handleDetail.bind(null, record),
+      }, {
+        label: '删除',
+        popConfirm: {
+          title: '是否确认删除',
+          confirm: handleDelete.bind(null, record),
+          placement: 'topLeft'
+        },
+        auth: 'order:uporder_order:delete'
+      }
+    ]
+  }
 
 </script>
 

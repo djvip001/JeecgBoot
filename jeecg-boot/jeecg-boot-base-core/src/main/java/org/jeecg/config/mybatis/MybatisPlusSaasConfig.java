@@ -61,11 +61,11 @@ public class MybatisPlusSaasConfig {
             TENANT_TABLE.add("sys_data_source");
             TENANT_TABLE.add("sys_position");
             //TENANT_TABLE.add("sys_announcement");
-            TENANT_TABLE.add("uporder_user");
+//            TENANT_TABLE.add("uporder_user");
             TENANT_TABLE.add("uporder_user_type");
             TENANT_TABLE.add("uporder_project");
             TENANT_TABLE.add("uporder_config");
-            TENANT_TABLE.add("uporder_product");
+//            TENANT_TABLE.add("uporder_product");
             TENANT_TABLE.add("uporder_template");
         }
 
