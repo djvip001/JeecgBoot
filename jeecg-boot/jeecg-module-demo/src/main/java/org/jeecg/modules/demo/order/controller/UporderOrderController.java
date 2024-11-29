@@ -1,20 +1,18 @@
-package org.jeecg.modules.uporder.order.controller;
+package org.jeecg.modules.demo.order.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jeecg.common.constant.CommonConstant;
-import org.jeecg.common.system.util.JwtUtil;
-import org.jeecg.config.shiro.IgnoreAuth;
-import org.jeecg.modules.uporder.order.vo.UpOrderSaveParam;
-import org.jeecg.modules.uporder.user.entity.UporderUser;
-import org.jeecg.modules.uporder.user.service.IUporderUserService;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -24,12 +22,13 @@ import org.jeecg.common.system.vo.LoginUser;
 import org.apache.shiro.SecurityUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
+import org.jeecg.common.system.query.QueryRuleEnum;
 import org.jeecg.common.util.oConvertUtils;
-import org.jeecg.modules.uporder.order.entity.UporderOrderTrafficNo;
-import org.jeecg.modules.uporder.order.entity.UporderOrder;
-import org.jeecg.modules.uporder.order.vo.UporderOrderPage;
-import org.jeecg.modules.uporder.order.service.IUporderOrderService;
-import org.jeecg.modules.uporder.order.service.IUporderOrderTrafficNoService;
+import org.jeecg.modules.demo.order.entity.UporderOrderTrafficNo;
+import org.jeecg.modules.demo.order.entity.UporderOrder;
+import org.jeecg.modules.demo.order.vo.UporderOrderPage;
+import org.jeecg.modules.demo.order.service.IUporderOrderService;
+import org.jeecg.modules.demo.order.service.IUporderOrderTrafficNoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +39,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
+import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.jeecg.common.aspect.annotation.AutoLog;
@@ -49,7 +49,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
  /**
  * @Description: 订单表
  * @Author: jeecg-boot
- * @Date:   2024-11-25
+ * @Date:   2024-11-29
  * @Version: V1.0
  */
 @Api(tags="订单表")
@@ -61,9 +61,6 @@ public class UporderOrderController {
 	private IUporderOrderService uporderOrderService;
 	@Autowired
 	private IUporderOrderTrafficNoService uporderOrderTrafficNoService;
-
-	@Autowired
-	protected IUporderUserService uporderUserService;
 	
 	/**
 	 * 分页列表查询
@@ -81,7 +78,18 @@ public class UporderOrderController {
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
-        QueryWrapper<UporderOrder> queryWrapper = QueryGenerator.initQueryWrapper(uporderOrder, req.getParameterMap());
+        // 自定义查询规则
+        Map<String, QueryRuleEnum> customeRuleMap = new HashMap<>();
+        // 自定义多选的查询规则为：LIKE_WITH_OR
+        customeRuleMap.put("userId", QueryRuleEnum.LIKE_WITH_OR);
+        customeRuleMap.put("productId", QueryRuleEnum.LIKE_WITH_OR);
+        customeRuleMap.put("orderStatus", QueryRuleEnum.LIKE_WITH_OR);
+        customeRuleMap.put("refundCalWay", QueryRuleEnum.LIKE_WITH_OR);
+        customeRuleMap.put("refundStatus", QueryRuleEnum.LIKE_WITH_OR);
+        customeRuleMap.put("auditStatus", QueryRuleEnum.LIKE_WITH_OR);
+        customeRuleMap.put("refundPayWay", QueryRuleEnum.LIKE_WITH_OR);
+        customeRuleMap.put("upperChannelStatus", QueryRuleEnum.LIKE_WITH_OR);
+        QueryWrapper<UporderOrder> queryWrapper = QueryGenerator.initQueryWrapper(uporderOrder, req.getParameterMap(),customeRuleMap);
 		Page<UporderOrder> page = new Page<UporderOrder>(pageNo, pageSize);
 		IPage<UporderOrder> pageList = uporderOrderService.page(page, queryWrapper);
 		return Result.OK(pageList);
@@ -98,15 +106,9 @@ public class UporderOrderController {
     @RequiresPermissions("order:uporder_order:add")
 	@PostMapping(value = "/add")
 	public Result<String> add(@RequestBody UporderOrderPage uporderOrderPage) {
-//		UporderOrder uporderOrder = new UporderOrder();
-//		BeanUtils.copyProperties(uporderOrderPage, uporderOrder);
-//		uporderOrderService.saveMain(uporderOrder, uporderOrderPage.getUporderOrderTrafficNoList());
-
-		String userId = uporderOrderPage.getUserId();
-		UporderUser uporderUser = uporderUserService.getById(userId);
-		UpOrderSaveParam saveParam = new UpOrderSaveParam();
-		BeanUtils.copyProperties(uporderOrderPage, saveParam);
-		uporderOrderService.saveOrder(uporderUser,saveParam);
+		UporderOrder uporderOrder = new UporderOrder();
+		BeanUtils.copyProperties(uporderOrderPage, uporderOrder);
+		uporderOrderService.saveMain(uporderOrder, uporderOrderPage.getUporderOrderTrafficNoList());
 		return Result.OK("添加成功！");
 	}
 	
@@ -274,20 +276,5 @@ public class UporderOrderController {
       }
       return Result.OK("文件导入失败！");
     }
-
-
-
-	 @AutoLog(value = "订单表-报单")
-	 @ApiOperation(value="订单表-报单", notes="订单表-报单")
-	 @PostMapping(value = "/save")
-	 @IgnoreAuth
-	 public Result<String> save(@RequestBody UpOrderSaveParam upOrderSaveParam, HttpServletRequest request) {
-		 String token = request.getHeader(CommonConstant.X_ACCESS_TOKEN);
-
-		 String username = JwtUtil.getUsername(token);
-		 UporderUser uporderUser = uporderUserService.getUserByName(username);
-		 uporderOrderService.saveOrder(uporderUser,upOrderSaveParam);
-		 return Result.OK("添加成功！");
-	 }
 
 }

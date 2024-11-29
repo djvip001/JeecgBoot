@@ -1,11 +1,8 @@
-package org.jeecg.modules.uporder.order.service;
+package org.jeecg.modules.demo.order.service;
 
-import org.jeecg.modules.uporder.order.entity.UporderOrderTrafficNo;
-import org.jeecg.modules.uporder.order.entity.UporderOrder;
+import org.jeecg.modules.demo.order.entity.UporderOrderTrafficNo;
+import org.jeecg.modules.demo.order.entity.UporderOrder;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.jeecg.modules.uporder.order.vo.UpOrderSaveParam;
-import org.jeecg.modules.uporder.user.entity.UporderUser;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -13,7 +10,7 @@ import java.util.List;
 /**
  * @Description: 订单表
  * @Author: jeecg-boot
- * @Date:   2024-11-25
+ * @Date:   2024-11-29
  * @Version: V1.0
  */
 public interface IUporderOrderService extends IService<UporderOrder> {
@@ -47,6 +44,5 @@ public interface IUporderOrderService extends IService<UporderOrder> {
 	 * @param idList
 	 */
 	public void delBatchMain (Collection<? extends Serializable> idList);
-
-	void saveOrder(UporderUser uporderUser, UpOrderSaveParam upOrderSaveParam);
+	
 }

@@ -17,19 +17,14 @@ export const columns: BasicColumn[] = [
     dataIndex: 'productName'
    },
    {
-    title: '总额度',
-    align:"center",
-    dataIndex: 'totalLimitMoney'
-   },
-   {
-    title: '剩余额度',
-    align:"center",
-    dataIndex: 'leftLimitMoney'
-   },
-   {
     title: '返款计算方式',
     align:"center",
     dataIndex: 'refundCalWay_dictText'
+   },
+   {
+    title: '默认成本',
+    align:"center",
+    dataIndex: 'discount'
    },
    {
     title: '税率',
@@ -37,88 +32,19 @@ export const columns: BasicColumn[] = [
     dataIndex: 'taxRate'
    },
    {
-    title: '进价成本',
+    title: '报单上级',
     align:"center",
-    dataIndex: 'inDiscount'
+    dataIndex: 'upperConfigId_dictText'
    },
    {
     title: '上架状态',
     align:"center",
-    dataIndex: 'shelf',
-    customRender:({text}) => {
-       return  render.renderSwitch(text, [{text:'是',value:'1'},{text:'否',value:'0'}])
-     },
-   },
-   {
-    title: '是否显示配额',
-    align:"center",
-    dataIndex: 'showQuota',
-    customRender:({text}) => {
-       return  render.renderSwitch(text, [{text:'是',value:'1'},{text:'否',value:'0'}])
-     },
+    dataIndex: 'shelf_dictText'
    },
    {
     title: '是否活动页显示',
     align:"center",
-    dataIndex: 'showAct',
-    customRender:({text}) => {
-       return  render.renderSwitch(text, [{text:'是',value:'1'},{text:'否',value:'0'}])
-     },
-   },
-   {
-    title: '是否预售',
-    align:"center",
-    dataIndex: 'presale',
-    customRender:({text}) => {
-       return  render.renderSwitch(text, [{text:'是',value:'1'},{text:'否',value:'0'}])
-     },
-   },
-   {
-    title: '是否收集评价图',
-    align:"center",
-    dataIndex: 'collectEvaluateImg',
-    customRender:({text}) => {
-       return  render.renderSwitch(text, [{text:'是',value:'1'},{text:'否',value:'0'}])
-     },
-   },
-   {
-    title: '是否收集物流单号',
-    align:"center",
-    dataIndex: 'collectTrafficNo',
-    customRender:({text}) => {
-       return  render.renderSwitch(text, [{text:'是',value:'1'},{text:'否',value:'0'}])
-     },
-   },
-   {
-    title: '是否刷货产品',
-    align:"center",
-    dataIndex: 'shuahuo',
-    customRender:({text}) => {
-       return  render.renderSwitch(text, [{text:'是',value:'1'},{text:'否',value:'0'}])
-     },
-   },
-   {
-    title: '是否完结',
-    align:"center",
-    dataIndex: 'settlement',
-    customRender:({text}) => {
-       return  render.renderSwitch(text, [{text:'是',value:'1'},{text:'否',value:'0'}])
-     },
-   },
-   {
-    title: '最大报单时间',
-    align:"center",
-    dataIndex: 'maxReportInterval'
-   },
-   {
-    title: '开始报单时间',
-    align:"center",
-    dataIndex: 'starTime'
-   },
-   {
-    title: '结束报单时间',
-    align:"center",
-    dataIndex: 'endTime'
+    dataIndex: 'showAct_dictText'
    },
 ];
 //查询数据
@@ -132,52 +58,104 @@ export const searchFormSchema: FormSchema[] = [
       },
       //colProps: {span: 6},
  	},
-	{
+     {
       label: "产品名",
       field: "productName",
-      component: 'Input',
+      component: 'Input', //TODO 范围查询
+      //colProps: {span: 6},
+	},
+	{
+      label: "返款计算方式",
+      field: "refundCalWay",
+      component: 'JSelectMultiple',
+      componentProps:{
+          dictCode:"refund_cal_way"
+      },
+      //colProps: {span: 6},
+ 	},
+	{
+      label: "关闭自动推单",
+      field: "closeAutoPush",
+      component: 'JSelectMultiple',
+      componentProps:{
+          dictCode:"yn"
+      },
+      //colProps: {span: 6},
+ 	},
+	{
+      label: "关闭自动申请返款",
+      field: "closeAutoRefund",
+      component: 'JSelectMultiple',
+      componentProps:{
+          dictCode:"yn"
+      },
       //colProps: {span: 6},
  	},
 	{
       label: "上架状态",
       field: "shelf",
-      component: 'JSwitch',
+      component: 'JSelectMultiple',
       componentProps:{
-           query:true,
-           options:[1,0]
-       },
-      //colProps: {span: 6},
- 	},
-	{
-      label: "是否显示配额",
-      field: "showQuota",
-      component: 'JSwitch',
-      componentProps:{
-           query:true,
-           options:[1,0]
-       },
+          dictCode:"shelf_status"
+      },
       //colProps: {span: 6},
  	},
 	{
       label: "是否活动页显示",
       field: "showAct",
-      component: 'JSwitch',
+      component: 'JSelectMultiple',
       componentProps:{
-           query:true,
-           options:[1,0]
-       },
+          dictCode:"yn"
+      },
       //colProps: {span: 6},
  	},
 	{
-      label: "是否收集评价图",
-      field: "collectEvaluateImg",
-      component: 'JSwitch',
+      label: "是否预售",
+      field: "presale",
+      component: 'JSelectMultiple',
       componentProps:{
-           query:true,
-           options:[1,0]
-       },
+          dictCode:"yn"
+      },
       //colProps: {span: 6},
  	},
+	{
+      label: "是否刷货产品",
+      field: "shuahuo",
+      component: 'JSelectMultiple',
+      componentProps:{
+          dictCode:"yn"
+      },
+      //colProps: {span: 6},
+ 	},
+	{
+      label: "是否完结",
+      field: "settlement",
+      component: 'JSelectMultiple',
+      componentProps:{
+          dictCode:"yn"
+      },
+      //colProps: {span: 6},
+ 	},
+     {
+      label: "开始报单时间",
+      field: "starTime",
+      component: 'RangePicker',
+      componentProps: {
+          valueType: 'Date',
+          showTime:true
+      },
+      //colProps: {span: 6},
+	},
+     {
+      label: "结束报单时间",
+      field: "endTime",
+      component: 'RangePicker',
+      componentProps: {
+          valueType: 'Date',
+          showTime:true
+      },
+      //colProps: {span: 6},
+	},
 ];
 //表单数据
 export const formSchema: FormSchema[] = [
@@ -284,89 +262,100 @@ export const formSchema: FormSchema[] = [
   {
     label: '是否跟上级额度',
     field: 'validUpperLimit',
-     component: 'JSwitch',
-     componentProps:{
-         options:[1,0]
+    component: 'JDictSelectTag',
+    componentProps:{
+        dictCode:"yn",
+        type: "radio"
      },
   },
   {
     label: '关闭自动推单',
     field: 'closeAutoPush',
-     component: 'JSwitch',
-     componentProps:{
-         options:[1,0]
+    component: 'JDictSelectTag',
+    componentProps:{
+        dictCode:"yn",
+        type: "radio"
      },
   },
   {
     label: '关闭自动申请返款',
     field: 'closeAutoRefund',
-     component: 'JSwitch',
-     componentProps:{
-         options:[1,0]
+    component: 'JDictSelectTag',
+    componentProps:{
+        dictCode:"yn",
+        type: "radio"
      },
   },
   {
     label: '上架状态',
     field: 'shelf',
-     component: 'JSwitch',
-     componentProps:{
-         options:[1,0]
+    component: 'JDictSelectTag',
+    componentProps:{
+        dictCode:"shelf_status",
+        type: "radio"
      },
   },
   {
     label: '是否显示配额',
     field: 'showQuota',
-     component: 'JSwitch',
-     componentProps:{
-         options:[1,0]
+    component: 'JDictSelectTag',
+    componentProps:{
+        dictCode:"yn",
+        type: "radio"
      },
   },
   {
     label: '是否活动页显示',
     field: 'showAct',
-     component: 'JSwitch',
-     componentProps:{
-         options:[1,0]
+    component: 'JDictSelectTag',
+    componentProps:{
+        dictCode:"yn",
+        type: "radio"
      },
   },
   {
     label: '是否预售',
     field: 'presale',
-     component: 'JSwitch',
-     componentProps:{
-         options:[1,0]
+    component: 'JDictSelectTag',
+    componentProps:{
+        dictCode:"yn",
+        type: "radio"
      },
   },
   {
     label: '是否收集评价图',
     field: 'collectEvaluateImg',
-     component: 'JSwitch',
-     componentProps:{
-         options:[1,0]
+    component: 'JDictSelectTag',
+    componentProps:{
+        dictCode:"yn",
+        type: "radio"
      },
   },
   {
     label: '是否收集物流单号',
     field: 'collectTrafficNo',
-     component: 'JSwitch',
-     componentProps:{
-         options:[1,0]
+    component: 'JDictSelectTag',
+    componentProps:{
+        dictCode:"yn",
+        type: "radio"
      },
   },
   {
     label: '是否刷货产品',
     field: 'shuahuo',
-     component: 'JSwitch',
-     componentProps:{
-         options:[1,0]
+    component: 'JDictSelectTag',
+    componentProps:{
+        dictCode:"yn",
+        type: "radio"
      },
   },
   {
     label: '是否完结',
     field: 'settlement',
-     component: 'JSwitch',
-     componentProps:{
-         options:[1,0]
+    component: 'JDictSelectTag',
+    componentProps:{
+        dictCode:"yn",
+        type: "radio"
      },
   },
   {
@@ -403,7 +392,7 @@ export const formSchema: FormSchema[] = [
   {
     label: '返款规则',
     field: 'refundRule',
-    component: 'InputTextArea',
+    component: 'Input',
   },
 	// TODO 主键隐藏字段，目前写死为ID
 	{
@@ -569,22 +558,12 @@ export const uporderProductBuyLinkColumns: JVxeColumn[] = [
 export const superQuerySchema = {
   projectId: {title: '项目',order: 0,view: 'list', type: 'string',dictTable: "uporder_project", dictCode: 'id', dictText: 'project_name',},
   productName: {title: '产品名',order: 1,view: 'text', type: 'string',},
-  totalLimitMoney: {title: '总额度',order: 2,view: 'number', type: 'number',},
-  leftLimitMoney: {title: '剩余额度',order: 6,view: 'number', type: 'number',},
   refundCalWay: {title: '返款计算方式',order: 7,view: 'number', type: 'number',dictCode: 'refund_cal_way',},
+  discount: {title: '默认成本',order: 8,view: 'number', type: 'number',},
   taxRate: {title: '税率',order: 9,view: 'number', type: 'number',},
-  inDiscount: {title: '进价成本',order: 10,view: 'number', type: 'number',},
-  shelf: {title: '上架状态',order: 16,view: 'number', type: 'number',},
-  showQuota: {title: '是否显示配额',order: 17,view: 'number', type: 'number',},
-  showAct: {title: '是否活动页显示',order: 18,view: 'number', type: 'number',},
-  presale: {title: '是否预售',order: 19,view: 'number', type: 'number',},
-  collectEvaluateImg: {title: '是否收集评价图',order: 20,view: 'number', type: 'number',},
-  collectTrafficNo: {title: '是否收集物流单号',order: 21,view: 'number', type: 'number',},
-  shuahuo: {title: '是否刷货产品',order: 22,view: 'number', type: 'number',},
-  settlement: {title: '是否完结',order: 23,view: 'number', type: 'number',},
-  maxReportInterval: {title: '最大报单时间',order: 24,view: 'number', type: 'number',},
-  starTime: {title: '开始报单时间',order: 26,view: 'datetime', type: 'string',},
-  endTime: {title: '结束报单时间',order: 27,view: 'datetime', type: 'string',},
+  upperConfigId: {title: '报单上级',order: 11,view: 'list', type: 'string',dictTable: "uporder_config", dictCode: 'id', dictText: 'upper_name',},
+  shelf: {title: '上架状态',order: 16,view: 'number', type: 'number',dictCode: 'shelf_status',},
+  showAct: {title: '是否活动页显示',order: 18,view: 'number', type: 'number',dictCode: 'yn',},
   //子表高级查询
   uporderProductMediumText: {
     title: '产品文本表',

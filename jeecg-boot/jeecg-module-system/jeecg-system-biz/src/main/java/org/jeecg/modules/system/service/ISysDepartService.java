@@ -240,4 +240,6 @@ public interface ISysDepartService extends IService<SysDepart>{
      * @param errorMessageList
      */
     void importSysDepart(List<SysDepartExportVo> listSysDeparts, List<String> errorMessageList);
+
+    SysDepart getByOrgCode(String sysOrgCode);
 }

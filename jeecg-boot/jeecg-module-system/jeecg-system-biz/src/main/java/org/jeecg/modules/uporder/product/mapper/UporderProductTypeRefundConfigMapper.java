@@ -28,4 +28,6 @@ public interface UporderProductTypeRefundConfigMapper extends BaseMapper<Uporder
    * @return List<UporderProductTypeRefundConfig>
    */
 	public List<UporderProductTypeRefundConfig> selectByMainId(@Param("mainId") String mainId);
+
+	UporderProductTypeRefundConfig getByProductAndType(@Param("productId") String productId, @Param("typeId") String typeId);
 }

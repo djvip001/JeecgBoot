@@ -13,4 +13,9 @@
 		FROM  uporder_product_type_refund_config
 		WHERE
 			 product_id = #{mainId} 	</select>
+
+	<select id="getByProductAndType"
+            resultType="org.jeecg.modules.uporder.product.entity.UporderProductTypeRefundConfig">
+		select * from uporder_product_type_refund_config where product_id=#{productId} and type_id=#{typeId}
+    </select>
 </mapper>

@@ -1346,6 +1346,11 @@ public class SysDepartServiceImpl extends ServiceImpl<SysDepartMapper, SysDepart
 		}
 	}
 
+	@Override
+	public SysDepart getByOrgCode(String sysOrgCode) {
+		return departMapper.getByOrgCode(sysOrgCode);
+	}
+
 	/**
 	 * 寻找部门路径
 	 *

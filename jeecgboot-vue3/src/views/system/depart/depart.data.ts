@@ -73,6 +73,13 @@ export function useBasicFormSchema() {
       componentProps: {
         placeholder: '请输入备注',
       },
+    }, {
+      field: 'domain',
+      label: '域名',
+      component: 'InputTextArea',
+      componentProps: {
+        placeholder: '请输入域名',
+      },
     },
   ];
   return { basicFormSchema };

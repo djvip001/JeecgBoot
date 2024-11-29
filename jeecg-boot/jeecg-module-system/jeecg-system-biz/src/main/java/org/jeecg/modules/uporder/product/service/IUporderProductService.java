@@ -10,7 +10,7 @@ import org.jeecg.modules.uporder.product.entity.UporderProductUserLimit;
 import org.jeecg.modules.uporder.product.entity.UporderProductBuyLink;
 import org.jeecg.modules.uporder.product.entity.UporderProduct;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.jeecg.modules.uporder.user.entity.UporderUser;
+import org.jeecg.modules.uporder.product.vo.UporderProductAction;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -66,4 +66,6 @@ public interface IUporderProductService extends IService<UporderProduct> {
 	IPage<UporderProduct> delList(Page<UporderProduct> page, QueryWrapper<UporderProduct> queryWrapper);
 
 	void recover(String id);
+
+	IPage<UporderProductAction> listAction(Page<UporderProductAction> page, QueryWrapper<UporderProduct> queryWrapper);
 }

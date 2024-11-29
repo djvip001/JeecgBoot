@@ -11,7 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jeecg.common.aspect.annotation.PermissionData;
+import org.jeecg.common.constant.CommonConstant;
+import org.jeecg.common.system.util.JwtUtil;
 import org.jeecg.config.shiro.IgnoreAuth;
+import org.jeecg.modules.system.entity.SysDepart;
+import org.jeecg.modules.system.service.ISysDepartService;
+import org.jeecg.modules.system.service.impl.SysDataLogServiceImpl;
+import org.jeecg.modules.uporder.product.vo.UporderProductAction;
+import org.jeecg.modules.uporder.user.entity.UporderUser;
+import org.jeecg.modules.uporder.user.service.IUporderUserService;
+import org.jeecg.modules.uporder.user.service.impl.UporderUserServiceImpl;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -75,7 +84,12 @@ public class UporderProductController {
 	private IUporderProductUserLimitService uporderProductUserLimitService;
 	@Autowired
 	private IUporderProductBuyLinkService uporderProductBuyLinkService;
-	
+
+	@Autowired
+	private IUporderUserService uporderUserService;
+
+	@Autowired
+	private ISysDepartService sysDepartService;
 	/**
 	 * 分页列表查询
 	 *
@@ -376,19 +390,25 @@ public class UporderProductController {
 	 @ApiOperation(value="产品表-查询活动页的产品", notes="产品表-已删除分页列表查询")
 	 @GetMapping(value = "/listDoingAction")
 	 @IgnoreAuth
+	 public Result<IPage<UporderProductAction>> listDoingAction(UporderProduct uporderProduct,
+																@RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+																@RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+																HttpServletRequest req) {
 
-	 public Result<IPage<UporderProduct>> listDoingAction(UporderProduct uporderProduct,
-												  @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
-												  @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
-												  HttpServletRequest req) {
+		 String token = req.getHeader(CommonConstant.X_ACCESS_TOKEN);
+
+		 String username = JwtUtil.getUsername(token);
+		 UporderUser uporderUser = uporderUserService.getUserByName(username);
+		 String sysOrgCode = uporderUser.getSysOrgCode();
+
 		 // 自定义查询规则
 		 Map<String, QueryRuleEnum> customeRuleMap = new HashMap<>();
 		 // 自定义多选的查询规则为：LIKE_WITH_OR
 		 customeRuleMap.put("projectId", QueryRuleEnum.LIKE_WITH_OR);
 		 QueryWrapper<UporderProduct> queryWrapper = QueryGenerator.initQueryWrapper(uporderProduct, req.getParameterMap(),customeRuleMap);
-		 uporderProduct.setShowAct(1);
-		 Page<UporderProduct> page = new Page<UporderProduct>(pageNo, pageSize);
-		 IPage<UporderProduct> pageList = uporderProductService.page(page, queryWrapper);
+		 queryWrapper.eq("show_act",1).eq("up.del_flag",0).eq("up.sys_org_code",sysOrgCode);
+		 Page<UporderProductAction> page = new Page<UporderProductAction>(pageNo, pageSize);
+		 IPage<UporderProductAction> pageList = uporderProductService.listAction(page, queryWrapper);
 		 return Result.OK(pageList);
 	 }
 

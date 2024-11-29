@@ -4,9 +4,9 @@
    <BasicTable @register="registerTable" :rowSelection="rowSelection">
      <!--插槽:table标题-->
       <template #tableTitle>
-          <a-button type="primary" v-auth="'product:uporder_product:add'"  @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
-          <a-button  type="primary" v-auth="'product:uporder_product:exportXls'"  preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-          <j-upload-button  type="primary" v-auth="'product:uporder_product:importExcel'"  preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
+          <a-button type="primary" v-auth="'order:uporder_order:add'"  @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
+          <a-button  type="primary" v-auth="'order:uporder_order:exportXls'"  preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
+          <j-upload-button  type="primary" v-auth="'order:uporder_order:importExcel'"  preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
           <a-dropdown v-if="selectedRowKeys.length > 0">
               <template #overlay>
                 <a-menu>
@@ -16,7 +16,7 @@
                   </a-menu-item>
                 </a-menu>
               </template>
-              <a-button v-auth="'product:uporder_product:deleteBatch'">批量操作
+              <a-button v-auth="'order:uporder_order:deleteBatch'">批量操作
                 <Icon icon="mdi:chevron-down"></Icon>
               </a-button>
         </a-dropdown>
@@ -32,18 +32,18 @@
       </template>
     </BasicTable>
     <!-- 表单区域 -->
-    <UporderProductModal @register="registerModal" @success="handleSuccess"></UporderProductModal>
+    <UporderOrderModal @register="registerModal" @success="handleSuccess"></UporderOrderModal>
   </div>
 </template>
 
-<script lang="ts" name="product-uporderProduct" setup>
+<script lang="ts" name="order-uporderOrder" setup>
   import {ref, reactive, computed, unref} from 'vue';
   import {BasicTable, useTable, TableAction} from '/@/components/Table';
   import { useListPage } from '/@/hooks/system/useListPage'
   import {useModal} from '/@/components/Modal';
-  import UporderProductModal from './components/UporderProductModal.vue'
-  import {columns, searchFormSchema, superQuerySchema} from './UporderProduct.data';
-  import {list, deleteOne, batchDelete, getImportUrl,getExportUrl} from './UporderProduct.api';
+  import UporderOrderModal from './components/UporderOrderModal.vue'
+  import {columns, searchFormSchema, superQuerySchema} from './UporderOrder.data';
+  import {list, deleteOne, batchDelete, getImportUrl,getExportUrl} from './UporderOrder.api';
   import {downloadFile} from '/@/utils/common/renderUtils';
   import { useUserStore } from '/@/store/modules/user';
   const queryParam = reactive<any>({});
@@ -54,7 +54,7 @@
    //注册table数据
   const { prefixCls,tableContext,onExportXls,onImportXls } = useListPage({
       tableProps:{
-           title: '产品表',
+           title: '订单表',
            api: list,
            columns,
            canResize:false,
@@ -66,8 +66,6 @@
                 fieldMapToNumber: [
                 ],
                 fieldMapToTime: [
-                   ['starTime', ['starTime_begin', 'starTime_end'], 'YYYY-MM-DD HH:mm:ss'],
-                   ['endTime', ['endTime_begin', 'endTime_end'], 'YYYY-MM-DD HH:mm:ss'],
                 ],
             },
            actionColumn: {
@@ -79,7 +77,7 @@
            },
         },
         exportConfig: {
-            name:"产品表",
+            name:"订单表",
             url: getExportUrl,
             params: queryParam,
         },
@@ -159,7 +157,7 @@
          {
            label: '编辑',
            onClick: handleEdit.bind(null, record),
-           auth: 'product:uporder_product:edit'
+           auth: 'order:uporder_order:edit'
          }
        ]
    }
@@ -180,7 +178,7 @@
           confirm: handleDelete.bind(null, record),
           placement: 'topLeft'
         },
-        auth: 'product:uporder_product:delete'
+        auth: 'order:uporder_order:delete'
       }
     ]
   }

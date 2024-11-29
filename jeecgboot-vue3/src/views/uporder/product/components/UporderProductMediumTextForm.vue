@@ -22,7 +22,7 @@
             const [registerForm, { setProps, resetFields, setFieldsValue, getFieldsValue, validate, scrollToField }] = useForm({
                 schemas: uporderProductMediumTextFormSchema,
                 showActionButtonGroup: false,
-                baseColProps: {span: 8}
+                baseColProps: {span: 12}
             });
             /**
             *初始化加载数据

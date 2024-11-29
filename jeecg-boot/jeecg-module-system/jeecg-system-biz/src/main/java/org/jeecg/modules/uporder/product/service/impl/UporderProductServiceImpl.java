@@ -1,8 +1,10 @@
 package org.jeecg.modules.uporder.product.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.jeecg.modules.system.service.ISysUserService;
 import org.jeecg.modules.uporder.product.entity.UporderProduct;
 import org.jeecg.modules.uporder.product.entity.UporderProductMediumText;
 import org.jeecg.modules.uporder.product.entity.UporderProductTypeRefundConfig;
@@ -16,8 +18,7 @@ import org.jeecg.modules.uporder.product.mapper.UporderProductUserLimitMapper;
 import org.jeecg.modules.uporder.product.mapper.UporderProductBuyLinkMapper;
 import org.jeecg.modules.uporder.product.mapper.UporderProductMapper;
 import org.jeecg.modules.uporder.product.service.IUporderProductService;
-import org.jeecg.modules.uporder.user.entity.UporderUser;
-import org.jeecg.modules.uporder.user.mapper.UporderUserMapper;
+import org.jeecg.modules.uporder.product.vo.UporderProductAction;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,9 @@ public class UporderProductServiceImpl extends ServiceImpl<UporderProductMapper,
 	private UporderProductUserLimitMapper uporderProductUserLimitMapper;
 	@Autowired
 	private UporderProductBuyLinkMapper uporderProductBuyLinkMapper;
+
+	@Autowired
+	private ISysUserService sysUserService;
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -180,5 +184,24 @@ public class UporderProductServiceImpl extends ServiceImpl<UporderProductMapper,
 
 		uporderProductMapper.recover(uporderUser);
 	}
-	
+
+	@Override
+	public IPage<UporderProductAction> listAction(Page<UporderProductAction> page, QueryWrapper<UporderProduct> queryWrapper) {
+
+		List<UporderProductAction> uporderProduct = uporderProductMapper.listAction(page,queryWrapper);
+		uporderProduct.forEach(u->{
+			String domain = u.getDomain();
+			String orderFormUrl;
+			if (StrUtil.startWith(domain, "http")) {
+				orderFormUrl=domain+"/uporder/link/h5/order/upload/"+u.getId();
+			}else {
+				orderFormUrl="http://"+domain+"/uporder/link/h5/order/upload/"+u.getId();
+
+			}
+
+			u.setOrderFormUrl(orderFormUrl);
+		});
+		return page.setRecords(uporderProduct);
+	}
+
 }

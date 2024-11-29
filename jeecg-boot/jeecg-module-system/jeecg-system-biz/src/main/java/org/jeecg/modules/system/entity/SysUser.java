@@ -212,8 +212,4 @@ public class SysUser implements Serializable {
     @TableField(exist = false)
     private boolean izBindThird;
 
-    /**
-     * 域名
-     */
-    private String domain;
 }

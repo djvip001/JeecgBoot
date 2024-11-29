@@ -91,6 +91,8 @@ public class SysDepart implements Serializable {
 	/**租户ID*/
 	private java.lang.Integer tenantId;
 
+	private String domain;
+
 	/**是否有叶子节点: 1是0否*/
 	private Integer izLeaf;
 
