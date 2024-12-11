@@ -23,14 +23,14 @@ import org.jeecg.common.aspect.annotation.AutoLog;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
  /**
- * @Description: 报单用户类型表
+ * @Description: 用户类型
  * @Author: jeecg-boot
- * @Date:   2024-11-15
+ * @Date:   2024-12-11
  * @Version: V1.0
  */
-@Api(tags="报单用户类型表")
+@Api(tags="用户类型")
 @RestController
-@RequestMapping("/uporderUserType/uporderUserType")
+@RequestMapping("/usertype/uporderUserType")
 @Slf4j
 public class UporderUserTypeController extends JeecgController<UporderUserType, IUporderUserTypeService> {
 	@Autowired
@@ -45,8 +45,8 @@ public class UporderUserTypeController extends JeecgController<UporderUserType, 
 	 * @param req
 	 * @return
 	 */
-	//@AutoLog(value = "报单用户类型表-分页列表查询")
-	@ApiOperation(value="报单用户类型表-分页列表查询", notes="报单用户类型表-分页列表查询")
+	//@AutoLog(value = "用户类型-分页列表查询")
+	@ApiOperation(value="用户类型-分页列表查询", notes="用户类型-分页列表查询")
 	@GetMapping(value = "/list")
 	public Result<IPage<UporderUserType>> queryPageList(UporderUserType uporderUserType,
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
@@ -64,9 +64,9 @@ public class UporderUserTypeController extends JeecgController<UporderUserType, 
 	 * @param uporderUserType
 	 * @return
 	 */
-	@AutoLog(value = "报单用户类型表-添加")
-	@ApiOperation(value="报单用户类型表-添加", notes="报单用户类型表-添加")
-	@RequiresPermissions("uporderUserType:uporder_user_type:add")
+	@AutoLog(value = "用户类型-添加")
+	@ApiOperation(value="用户类型-添加", notes="用户类型-添加")
+	@RequiresPermissions("usertype:uporder_user_type:add")
 	@PostMapping(value = "/add")
 	public Result<String> add(@RequestBody UporderUserType uporderUserType) {
 		uporderUserTypeService.save(uporderUserType);
@@ -79,9 +79,9 @@ public class UporderUserTypeController extends JeecgController<UporderUserType, 
 	 * @param uporderUserType
 	 * @return
 	 */
-	@AutoLog(value = "报单用户类型表-编辑")
-	@ApiOperation(value="报单用户类型表-编辑", notes="报单用户类型表-编辑")
-	@RequiresPermissions("uporderUserType:uporder_user_type:edit")
+	@AutoLog(value = "用户类型-编辑")
+	@ApiOperation(value="用户类型-编辑", notes="用户类型-编辑")
+	@RequiresPermissions("usertype:uporder_user_type:edit")
 	@RequestMapping(value = "/edit", method = {RequestMethod.PUT,RequestMethod.POST})
 	public Result<String> edit(@RequestBody UporderUserType uporderUserType) {
 		uporderUserTypeService.updateById(uporderUserType);
@@ -94,9 +94,9 @@ public class UporderUserTypeController extends JeecgController<UporderUserType, 
 	 * @param id
 	 * @return
 	 */
-	@AutoLog(value = "报单用户类型表-通过id删除")
-	@ApiOperation(value="报单用户类型表-通过id删除", notes="报单用户类型表-通过id删除")
-	@RequiresPermissions("uporderUserType:uporder_user_type:delete")
+	@AutoLog(value = "用户类型-通过id删除")
+	@ApiOperation(value="用户类型-通过id删除", notes="用户类型-通过id删除")
+	@RequiresPermissions("usertype:uporder_user_type:delete")
 	@DeleteMapping(value = "/delete")
 	public Result<String> delete(@RequestParam(name="id",required=true) String id) {
 		uporderUserTypeService.removeById(id);
@@ -109,9 +109,9 @@ public class UporderUserTypeController extends JeecgController<UporderUserType, 
 	 * @param ids
 	 * @return
 	 */
-	@AutoLog(value = "报单用户类型表-批量删除")
-	@ApiOperation(value="报单用户类型表-批量删除", notes="报单用户类型表-批量删除")
-	@RequiresPermissions("uporderUserType:uporder_user_type:deleteBatch")
+	@AutoLog(value = "用户类型-批量删除")
+	@ApiOperation(value="用户类型-批量删除", notes="用户类型-批量删除")
+	@RequiresPermissions("usertype:uporder_user_type:deleteBatch")
 	@DeleteMapping(value = "/deleteBatch")
 	public Result<String> deleteBatch(@RequestParam(name="ids",required=true) String ids) {
 		this.uporderUserTypeService.removeByIds(Arrays.asList(ids.split(",")));
@@ -124,8 +124,8 @@ public class UporderUserTypeController extends JeecgController<UporderUserType, 
 	 * @param id
 	 * @return
 	 */
-	//@AutoLog(value = "报单用户类型表-通过id查询")
-	@ApiOperation(value="报单用户类型表-通过id查询", notes="报单用户类型表-通过id查询")
+	//@AutoLog(value = "用户类型-通过id查询")
+	@ApiOperation(value="用户类型-通过id查询", notes="用户类型-通过id查询")
 	@GetMapping(value = "/queryById")
 	public Result<UporderUserType> queryById(@RequestParam(name="id",required=true) String id) {
 		UporderUserType uporderUserType = uporderUserTypeService.getById(id);
@@ -141,10 +141,10 @@ public class UporderUserTypeController extends JeecgController<UporderUserType, 
     * @param request
     * @param uporderUserType
     */
-    @RequiresPermissions("uporderUserType:uporder_user_type:exportXls")
+    @RequiresPermissions("usertype:uporder_user_type:exportXls")
     @RequestMapping(value = "/exportXls")
     public ModelAndView exportXls(HttpServletRequest request, UporderUserType uporderUserType) {
-        return super.exportXls(request, uporderUserType, UporderUserType.class, "报单用户类型表");
+        return super.exportXls(request, uporderUserType, UporderUserType.class, "用户类型");
     }
 
     /**
@@ -154,7 +154,7 @@ public class UporderUserTypeController extends JeecgController<UporderUserType, 
     * @param response
     * @return
     */
-    @RequiresPermissions("uporderUserType:uporder_user_type:importExcel")
+    @RequiresPermissions("usertype:uporder_user_type:importExcel")
     @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
     public Result<?> importExcel(HttpServletRequest request, HttpServletResponse response) {
         return super.importExcel(request, response, UporderUserType.class);

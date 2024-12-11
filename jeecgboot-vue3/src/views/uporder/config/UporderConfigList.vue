@@ -4,9 +4,9 @@
    <BasicTable @register="registerTable" :rowSelection="rowSelection">
      <!--插槽:table标题-->
       <template #tableTitle>
-          <a-button type="primary" v-auth="'uporder:uporder_config:add'" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
-          <a-button  type="primary" v-auth="'uporder:uporder_config:exportXls'" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-          <j-upload-button type="primary" v-auth="'uporder:uporder_config:importExcel'" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
+          <a-button type="primary" v-auth="'config:uporder_config:add'" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
+          <a-button  type="primary" v-auth="'config:uporder_config:exportXls'" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
+          <j-upload-button type="primary" v-auth="'config:uporder_config:importExcel'" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
           <a-dropdown v-if="selectedRowKeys.length > 0">
               <template #overlay>
                 <a-menu>
@@ -16,7 +16,7 @@
                   </a-menu-item>
                 </a-menu>
               </template>
-              <a-button v-auth="'uporder:uporder_config:deleteBatch'">批量操作
+              <a-button v-auth="'config:uporder_config:deleteBatch'">批量操作
                 <Icon icon="mdi:chevron-down"></Icon>
               </a-button>
         </a-dropdown>
@@ -36,7 +36,7 @@
   </div>
 </template>
 
-<script lang="ts" name="uporder-uporderConfig" setup>
+<script lang="ts" name="config-uporderConfig" setup>
   import {ref, reactive, computed, unref} from 'vue';
   import {BasicTable, useTable, TableAction} from '/@/components/Table';
   import {useModal} from '/@/components/Modal';
@@ -54,7 +54,7 @@
   //注册table数据
   const { prefixCls,tableContext,onExportXls,onImportXls } = useListPage({
       tableProps:{
-           title: '报单配置表',
+           title: '上级配置',
            api: list,
            columns,
            canResize:false,
@@ -77,7 +77,7 @@
             },
       },
        exportConfig: {
-            name:"报单配置表",
+            name:"上级配置",
             url: getExportUrl,
             params: queryParam,
           },
@@ -156,7 +156,7 @@
          {
            label: '编辑',
            onClick: handleEdit.bind(null, record),
-           auth: 'uporder:uporder_config:edit'
+           auth: 'config:uporder_config:edit'
          }
        ]
    }
@@ -175,7 +175,7 @@
              confirm: handleDelete.bind(null, record),
              placement: 'topLeft',
            },
-           auth: 'uporder:uporder_config:delete'
+           auth: 'config:uporder_config:delete'
          }
        ]
    }

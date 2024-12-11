@@ -4,9 +4,9 @@
    <BasicTable @register="registerTable" :rowSelection="rowSelection">
      <!--插槽:table标题-->
       <template #tableTitle>
-          <a-button type="primary" v-auth="'uporderUser:uporder_user:add'" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
-          <a-button  type="primary" v-auth="'uporderUser:uporder_user:exportXls'" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-          <j-upload-button type="primary" v-auth="'uporderUser:uporder_user:importExcel'" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
+          <a-button type="primary" v-auth="'user:uporder_user:add'" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
+          <a-button  type="primary" v-auth="'user:uporder_user:exportXls'" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
+          <j-upload-button type="primary" v-auth="'user:uporder_user:importExcel'" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
           <a-dropdown v-if="selectedRowKeys.length > 0">
               <template #overlay>
                 <a-menu>
@@ -16,7 +16,7 @@
                   </a-menu-item>
                 </a-menu>
               </template>
-              <a-button v-auth="'uporderUser:uporder_user:deleteBatch'">批量操作
+              <a-button v-auth="'user:uporder_user:deleteBatch'">批量操作
                 <Icon icon="mdi:chevron-down"></Icon>
               </a-button>
         </a-dropdown>
@@ -36,7 +36,7 @@
   </div>
 </template>
 
-<script lang="ts" name="uporderUser-uporderUser" setup>
+<script lang="ts" name="user-uporderUser" setup>
   import {ref, reactive, computed, unref} from 'vue';
   import {BasicTable, useTable, TableAction} from '/@/components/Table';
   import {useModal} from '/@/components/Modal';
@@ -54,7 +54,7 @@
   //注册table数据
   const { prefixCls,tableContext,onExportXls,onImportXls } = useListPage({
       tableProps:{
-           title: '报单用户表',
+           title: '用户管理',
            api: list,
            columns,
            canResize:false,
@@ -78,7 +78,7 @@
             },
       },
        exportConfig: {
-            name:"报单用户表",
+            name:"用户管理",
             url: getExportUrl,
             params: queryParam,
           },
@@ -157,7 +157,7 @@
          {
            label: '编辑',
            onClick: handleEdit.bind(null, record),
-           auth: 'uporderUser:uporder_user:edit'
+           auth: 'user:uporder_user:edit'
          }
        ]
    }
@@ -176,7 +176,7 @@
              confirm: handleDelete.bind(null, record),
              placement: 'topLeft',
            },
-           auth: 'uporderUser:uporder_user:delete'
+           auth: 'user:uporder_user:delete'
          }
        ]
    }

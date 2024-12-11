@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 /**
- * @Description: 报单配置表
+ * @Description: 上级配置
  * @Author: jeecg-boot
- * @Date:   2024-11-17
+ * @Date:   2024-12-11
  * @Version: V1.0
  */
 @Service

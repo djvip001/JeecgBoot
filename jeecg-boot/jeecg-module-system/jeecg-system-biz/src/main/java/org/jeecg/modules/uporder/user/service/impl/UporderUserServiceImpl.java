@@ -1,6 +1,5 @@
 package org.jeecg.modules.uporder.user.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -17,9 +16,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import java.util.List;
 
 /**
- * @Description: 报单用户表
+ * @Description: 用户管理
  * @Author: jeecg-boot
- * @Date:   2024-11-16
+ * @Date:   2024-12-11
  * @Version: V1.0
  */
 @Service

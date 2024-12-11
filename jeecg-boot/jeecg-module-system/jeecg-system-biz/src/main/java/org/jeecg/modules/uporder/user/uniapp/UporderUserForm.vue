@@ -3,7 +3,7 @@
         <!--标题和返回-->
 		<cu-custom :bgColor="NavBarColor" isBack :backRouterName="backRouteName">
 			<block slot="backText">返回</block>
-			<block slot="content">报单用户表</block>
+			<block slot="content">用户管理</block>
 		</cu-custom>
 		 <!--表单区域-->
 		<view>
@@ -57,12 +57,6 @@
                   <input type="number" placeholder="请输入状态" v-model="model.status"/>
                 </view>
               </view>
-              <view class="cu-form-group">
-                <view class="flex align-center">
-                  <view class="title"><text space="ensp">头像：</text></view>
-                  <input  placeholder="请输入头像" v-model="model.headImage"/>
-                </view>
-              </view>
 				<view class="padding">
 					<button class="cu-btn block bg-blue margin-tb-sm lg" @click="onSubmit">
 						<text v-if="loading" class="cuIcon-loading2 cuIconfont-spin"></text>提交
@@ -94,9 +88,9 @@
                 model: {},
                 backRouteName:'index',
                 url: {
-                  queryById: "/uporderUser/uporderUser/queryById",
-                  add: "/uporderUser/uporderUser/add",
-                  edit: "/uporderUser/uporderUser/edit",
+                  queryById: "/user/uporderUser/queryById",
+                  add: "/user/uporderUser/add",
+                  edit: "/user/uporderUser/edit",
                 },
             }
         },

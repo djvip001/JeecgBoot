@@ -21,22 +21,22 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * @Description: 报单配置表
+ * @Description: 上级配置
  * @Author: jeecg-boot
- * @Date:   2024-11-17
+ * @Date:   2024-12-11
  * @Version: V1.0
  */
 @Data
 @TableName("uporder_config")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="uporder_config对象", description="报单配置表")
+@ApiModel(value="uporder_config对象", description="上级配置")
 public class UporderConfig implements Serializable {
     private static final long serialVersionUID = 1L;
 
-	/**主键*/
+	/**id*/
 	@TableId(type = IdType.ASSIGN_ID)
-    @ApiModelProperty(value = "主键")
+    @ApiModelProperty(value = "id")
     private java.lang.String id;
 	/**平台名称*/
 	@Excel(name = "平台名称", width = 15)
@@ -78,4 +78,11 @@ public class UporderConfig implements Serializable {
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "更新日期")
     private java.util.Date updateTime;
+	/**部门*/
+    @ApiModelProperty(value = "部门")
+    private java.lang.String sysOrgCode;
+	/**租户id*/
+	@Excel(name = "租户id", width = 15)
+    @ApiModelProperty(value = "租户id")
+    private java.lang.String tenantId;
 }

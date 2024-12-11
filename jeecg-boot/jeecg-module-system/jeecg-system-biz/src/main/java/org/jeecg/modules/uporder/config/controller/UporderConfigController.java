@@ -23,14 +23,14 @@ import org.jeecg.common.aspect.annotation.AutoLog;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
  /**
- * @Description: 报单配置表
+ * @Description: 上级配置
  * @Author: jeecg-boot
- * @Date:   2024-11-17
+ * @Date:   2024-12-11
  * @Version: V1.0
  */
-@Api(tags="报单配置表")
+@Api(tags="上级配置")
 @RestController
-@RequestMapping("/uporder/uporderConfig")
+@RequestMapping("/config/uporderConfig")
 @Slf4j
 public class UporderConfigController extends JeecgController<UporderConfig, IUporderConfigService> {
 	@Autowired
@@ -45,8 +45,8 @@ public class UporderConfigController extends JeecgController<UporderConfig, IUpo
 	 * @param req
 	 * @return
 	 */
-	//@AutoLog(value = "报单配置表-分页列表查询")
-	@ApiOperation(value="报单配置表-分页列表查询", notes="报单配置表-分页列表查询")
+	//@AutoLog(value = "上级配置-分页列表查询")
+	@ApiOperation(value="上级配置-分页列表查询", notes="上级配置-分页列表查询")
 	@GetMapping(value = "/list")
 	public Result<IPage<UporderConfig>> queryPageList(UporderConfig uporderConfig,
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
@@ -64,9 +64,9 @@ public class UporderConfigController extends JeecgController<UporderConfig, IUpo
 	 * @param uporderConfig
 	 * @return
 	 */
-	@AutoLog(value = "报单配置表-添加")
-	@ApiOperation(value="报单配置表-添加", notes="报单配置表-添加")
-	@RequiresPermissions("uporder:uporder_config:add")
+	@AutoLog(value = "上级配置-添加")
+	@ApiOperation(value="上级配置-添加", notes="上级配置-添加")
+	@RequiresPermissions("config:uporder_config:add")
 	@PostMapping(value = "/add")
 	public Result<String> add(@RequestBody UporderConfig uporderConfig) {
 		uporderConfigService.save(uporderConfig);
@@ -79,9 +79,9 @@ public class UporderConfigController extends JeecgController<UporderConfig, IUpo
 	 * @param uporderConfig
 	 * @return
 	 */
-	@AutoLog(value = "报单配置表-编辑")
-	@ApiOperation(value="报单配置表-编辑", notes="报单配置表-编辑")
-	@RequiresPermissions("uporder:uporder_config:edit")
+	@AutoLog(value = "上级配置-编辑")
+	@ApiOperation(value="上级配置-编辑", notes="上级配置-编辑")
+	@RequiresPermissions("config:uporder_config:edit")
 	@RequestMapping(value = "/edit", method = {RequestMethod.PUT,RequestMethod.POST})
 	public Result<String> edit(@RequestBody UporderConfig uporderConfig) {
 		uporderConfigService.updateById(uporderConfig);
@@ -94,9 +94,9 @@ public class UporderConfigController extends JeecgController<UporderConfig, IUpo
 	 * @param id
 	 * @return
 	 */
-	@AutoLog(value = "报单配置表-通过id删除")
-	@ApiOperation(value="报单配置表-通过id删除", notes="报单配置表-通过id删除")
-	@RequiresPermissions("uporder:uporder_config:delete")
+	@AutoLog(value = "上级配置-通过id删除")
+	@ApiOperation(value="上级配置-通过id删除", notes="上级配置-通过id删除")
+	@RequiresPermissions("config:uporder_config:delete")
 	@DeleteMapping(value = "/delete")
 	public Result<String> delete(@RequestParam(name="id",required=true) String id) {
 		uporderConfigService.removeById(id);
@@ -109,9 +109,9 @@ public class UporderConfigController extends JeecgController<UporderConfig, IUpo
 	 * @param ids
 	 * @return
 	 */
-	@AutoLog(value = "报单配置表-批量删除")
-	@ApiOperation(value="报单配置表-批量删除", notes="报单配置表-批量删除")
-	@RequiresPermissions("uporder:uporder_config:deleteBatch")
+	@AutoLog(value = "上级配置-批量删除")
+	@ApiOperation(value="上级配置-批量删除", notes="上级配置-批量删除")
+	@RequiresPermissions("config:uporder_config:deleteBatch")
 	@DeleteMapping(value = "/deleteBatch")
 	public Result<String> deleteBatch(@RequestParam(name="ids",required=true) String ids) {
 		this.uporderConfigService.removeByIds(Arrays.asList(ids.split(",")));
@@ -124,8 +124,8 @@ public class UporderConfigController extends JeecgController<UporderConfig, IUpo
 	 * @param id
 	 * @return
 	 */
-	//@AutoLog(value = "报单配置表-通过id查询")
-	@ApiOperation(value="报单配置表-通过id查询", notes="报单配置表-通过id查询")
+	//@AutoLog(value = "上级配置-通过id查询")
+	@ApiOperation(value="上级配置-通过id查询", notes="上级配置-通过id查询")
 	@GetMapping(value = "/queryById")
 	public Result<UporderConfig> queryById(@RequestParam(name="id",required=true) String id) {
 		UporderConfig uporderConfig = uporderConfigService.getById(id);
@@ -141,10 +141,10 @@ public class UporderConfigController extends JeecgController<UporderConfig, IUpo
     * @param request
     * @param uporderConfig
     */
-    @RequiresPermissions("uporder:uporder_config:exportXls")
+    @RequiresPermissions("config:uporder_config:exportXls")
     @RequestMapping(value = "/exportXls")
     public ModelAndView exportXls(HttpServletRequest request, UporderConfig uporderConfig) {
-        return super.exportXls(request, uporderConfig, UporderConfig.class, "报单配置表");
+        return super.exportXls(request, uporderConfig, UporderConfig.class, "上级配置");
     }
 
     /**
@@ -154,7 +154,7 @@ public class UporderConfigController extends JeecgController<UporderConfig, IUpo
     * @param response
     * @return
     */
-    @RequiresPermissions("uporder:uporder_config:importExcel")
+    @RequiresPermissions("config:uporder_config:importExcel")
     @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
     public Result<?> importExcel(HttpServletRequest request, HttpServletResponse response) {
         return super.importExcel(request, response, UporderConfig.class);

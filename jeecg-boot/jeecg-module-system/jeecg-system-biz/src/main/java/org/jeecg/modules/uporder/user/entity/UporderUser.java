@@ -1,11 +1,15 @@
 package org.jeecg.modules.uporder.user.entity;
 
 import java.io.Serializable;
-
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
+import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import org.jeecg.common.constant.ProvinceCityArea;
+import org.jeecg.common.util.SpringContextUtils;
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,22 +21,22 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * @Description: 报单用户表
+ * @Description: 用户管理
  * @Author: jeecg-boot
- * @Date:   2024-11-16
+ * @Date:   2024-12-11
  * @Version: V1.0
  */
 @Data
 @TableName("uporder_user")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="uporder_user对象", description="报单用户表")
+@ApiModel(value="uporder_user对象", description="用户管理")
 public class UporderUser implements Serializable {
     private static final long serialVersionUID = 1L;
 
-	/**主键*/
+	/**id*/
 	@TableId(type = IdType.ASSIGN_ID)
-    @ApiModelProperty(value = "主键")
+    @ApiModelProperty(value = "id")
     private java.lang.String id;
 	/**账号*/
 	@Excel(name = "账号", width = 15)
@@ -70,8 +74,7 @@ public class UporderUser implements Serializable {
     @ApiModelProperty(value = "最后报单时间")
     private java.util.Date lastOrderTime;
 	/**状态*/
-	@Excel(name = "状态", width = 15, dicCode = "upoder_user_status")
-	@Dict(dicCode = "upoder_user_status")
+	@Excel(name = "状态", width = 15)
     @ApiModelProperty(value = "状态")
     private java.lang.Integer status;
 	/**头像*/
@@ -81,15 +84,6 @@ public class UporderUser implements Serializable {
 	/**创建人*/
     @ApiModelProperty(value = "创建人")
     private java.lang.String createBy;
-    /**租户id*/
-    @Excel(name = "租户id", width = 15)
-    @ApiModelProperty(value = "租户id")
-    private java.lang.String tenantId;
-    /**部门*/
-    @Excel(name = "部门", width = 15)
-    @ApiModelProperty(value = "部门")
-    private java.lang.String sysOrgCode;
-
 	/**删除状态*/
 	@Excel(name = "删除状态", width = 15)
     @ApiModelProperty(value = "删除状态")
@@ -108,4 +102,11 @@ public class UporderUser implements Serializable {
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "更新日期")
     private java.util.Date updateTime;
+	/**部门*/
+    @ApiModelProperty(value = "部门")
+    private java.lang.String sysOrgCode;
+	/**租户id*/
+	@Excel(name = "租户id", width = 15)
+    @ApiModelProperty(value = "租户id")
+    private java.lang.String tenantId;
 }

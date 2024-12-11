@@ -10,11 +10,6 @@ export const columns: BasicColumn[] = [
     align:"center",
     dataIndex: 'accountType'
    },
-   {
-    title: '创建日期',
-    align:"center",
-    dataIndex: 'createTime'
-   },
 ];
 //查询数据
 export const searchFormSchema: FormSchema[] = [
@@ -31,11 +26,6 @@ export const formSchema: FormSchema[] = [
     label: '类型名',
     field: 'accountType',
     component: 'Input',
-    dynamicRules: ({model,schema}) => {
-          return [
-                 { required: true, message: '请输入类型名!'},
-          ];
-     },
   },
 	// TODO 主键隐藏字段，目前写死为ID
 	{
@@ -49,7 +39,6 @@ export const formSchema: FormSchema[] = [
 // 高级查询数据
 export const superQuerySchema = {
   accountType: {title: '类型名',order: 0,view: 'text', type: 'string',},
-  createTime: {title: '创建日期',order: 1,view: 'datetime', type: 'string',},
 };
 
 /**

@@ -21,6 +21,11 @@ export const columns: BasicColumn[] = [
     dataIndex: 'reportAccount'
    },
    {
+    title: '报单密码',
+    align:"center",
+    dataIndex: 'reportPassword'
+   },
+   {
     title: '主页',
     align:"center",
     dataIndex: 'upperHome'
@@ -28,6 +33,24 @@ export const columns: BasicColumn[] = [
 ];
 //查询数据
 export const searchFormSchema: FormSchema[] = [
+	{
+      label: "平台名称",
+      field: 'platformName',
+      component: 'Input',
+      //colProps: {span: 6},
+ 	},
+	{
+      label: "上级名",
+      field: 'upperName',
+      component: 'Input',
+      //colProps: {span: 6},
+ 	},
+	{
+      label: "报单账号",
+      field: 'reportAccount',
+      component: 'Input',
+      //colProps: {span: 6},
+ 	},
 ];
 //表单数据
 export const formSchema: FormSchema[] = [
@@ -70,6 +93,7 @@ export const superQuerySchema = {
   platformName: {title: '平台名称',order: 0,view: 'text', type: 'string',},
   upperName: {title: '上级名',order: 1,view: 'text', type: 'string',},
   reportAccount: {title: '报单账号',order: 2,view: 'text', type: 'string',},
+  reportPassword: {title: '报单密码',order: 3,view: 'text', type: 'string',},
   upperHome: {title: '主页',order: 4,view: 'text', type: 'string',},
 };
 

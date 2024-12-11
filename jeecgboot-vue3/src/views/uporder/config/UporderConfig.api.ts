@@ -4,13 +4,13 @@ import { useMessage } from "/@/hooks/web/useMessage";
 const { createConfirm } = useMessage();
 
 enum Api {
-  list = '/uporder/uporderConfig/list',
-  save='/uporder/uporderConfig/add',
-  edit='/uporder/uporderConfig/edit',
-  deleteOne = '/uporder/uporderConfig/delete',
-  deleteBatch = '/uporder/uporderConfig/deleteBatch',
-  importExcel = '/uporder/uporderConfig/importExcel',
-  exportXls = '/uporder/uporderConfig/exportXls',
+  list = '/config/uporderConfig/list',
+  save='/config/uporderConfig/add',
+  edit='/config/uporderConfig/edit',
+  deleteOne = '/config/uporderConfig/delete',
+  deleteBatch = '/config/uporderConfig/deleteBatch',
+  importExcel = '/config/uporderConfig/importExcel',
+  exportXls = '/config/uporderConfig/exportXls',
 }
 /**
  * 导出api

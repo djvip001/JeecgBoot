@@ -23,7 +23,7 @@ spring:
   # flyway配置
   flyway:
     # 是否启用flyway
-    enabled: true
+    enabled: false
     # 编码格式，默认UTF-8
     encoding: UTF-8
     # 迁移sql脚本文件存放路径，官方默认db/migration
@@ -163,7 +163,7 @@ spring:
           slow-sql-millis: 5000
       datasource:
         master:
-          url: jdbc:mysql://127.0.0.1:3306/jeecg-boot?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+          url: jdbc:mysql://127.0.0.1:3306/jeecg?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
           username: root
           password: 123456
           driver-class-name: com.mysql.cj.jdbc.Driver

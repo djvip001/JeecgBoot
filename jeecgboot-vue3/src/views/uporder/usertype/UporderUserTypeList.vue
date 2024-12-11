@@ -4,9 +4,9 @@
    <BasicTable @register="registerTable" :rowSelection="rowSelection">
      <!--插槽:table标题-->
       <template #tableTitle>
-          <a-button type="primary" v-auth="'uporderUserType:uporder_user_type:add'" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
-          <a-button  type="primary" v-auth="'uporderUserType:uporder_user_type:exportXls'" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-          <j-upload-button type="primary" v-auth="'uporderUserType:uporder_user_type:importExcel'" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
+          <a-button type="primary" v-auth="'usertype:uporder_user_type:add'" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
+          <a-button  type="primary" v-auth="'usertype:uporder_user_type:exportXls'" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
+          <j-upload-button type="primary" v-auth="'usertype:uporder_user_type:importExcel'" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
           <a-dropdown v-if="selectedRowKeys.length > 0">
               <template #overlay>
                 <a-menu>
@@ -16,7 +16,7 @@
                   </a-menu-item>
                 </a-menu>
               </template>
-              <a-button v-auth="'uporderUserType:uporder_user_type:deleteBatch'">批量操作
+              <a-button v-auth="'usertype:uporder_user_type:deleteBatch'">批量操作
                 <Icon icon="mdi:chevron-down"></Icon>
               </a-button>
         </a-dropdown>
@@ -36,7 +36,7 @@
   </div>
 </template>
 
-<script lang="ts" name="uporderUserType-uporderUserType" setup>
+<script lang="ts" name="usertype-uporderUserType" setup>
   import {ref, reactive, computed, unref} from 'vue';
   import {BasicTable, useTable, TableAction} from '/@/components/Table';
   import {useModal} from '/@/components/Modal';
@@ -54,7 +54,7 @@
   //注册table数据
   const { prefixCls,tableContext,onExportXls,onImportXls } = useListPage({
       tableProps:{
-           title: '报单用户类型表',
+           title: '用户类型',
            api: list,
            columns,
            canResize:false,
@@ -77,7 +77,7 @@
             },
       },
        exportConfig: {
-            name:"报单用户类型表",
+            name:"用户类型",
             url: getExportUrl,
             params: queryParam,
           },
@@ -156,7 +156,7 @@
          {
            label: '编辑',
            onClick: handleEdit.bind(null, record),
-           auth: 'uporderUserType:uporder_user_type:edit'
+           auth: 'usertype:uporder_user_type:edit'
          }
        ]
    }
@@ -175,7 +175,7 @@
              confirm: handleDelete.bind(null, record),
              placement: 'topLeft',
            },
-           auth: 'uporderUserType:uporder_user_type:delete'
+           auth: 'usertype:uporder_user_type:delete'
          }
        ]
    }

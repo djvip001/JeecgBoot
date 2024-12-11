@@ -3,7 +3,7 @@
         <!--标题和返回-->
 		<cu-custom :bgColor="NavBarColor" isBack :backRouterName="backRouteName">
 			<block slot="backText">返回</block>
-			<block slot="content">报单配置表</block>
+			<block slot="content">上级配置</block>
 		</cu-custom>
 		 <!--表单区域-->
 		<view>
@@ -69,9 +69,9 @@
                 model: {},
                 backRouteName:'index',
                 url: {
-                  queryById: "/uporder/uporderConfig/queryById",
-                  add: "/uporder/uporderConfig/add",
-                  edit: "/uporder/uporderConfig/edit",
+                  queryById: "/config/uporderConfig/queryById",
+                  add: "/config/uporderConfig/add",
+                  edit: "/config/uporderConfig/edit",
                 },
             }
         },

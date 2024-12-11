@@ -40,7 +40,7 @@
             });
 
             let formData = {};
-            const queryByIdUrl = '/uporder/uporderConfig/queryById';
+            const queryByIdUrl = '/config/uporderConfig/queryById';
             async function initFormData(){
                 let params = {id: props.formData.dataId};
                 const data = await defHttp.get({url: queryByIdUrl, params});

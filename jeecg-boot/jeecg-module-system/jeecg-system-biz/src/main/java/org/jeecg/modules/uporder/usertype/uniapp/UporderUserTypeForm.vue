@@ -3,7 +3,7 @@
         <!--标题和返回-->
 		<cu-custom :bgColor="NavBarColor" isBack :backRouterName="backRouteName">
 			<block slot="backText">返回</block>
-			<block slot="content">报单用户类型表</block>
+			<block slot="content">用户类型</block>
 		</cu-custom>
 		 <!--表单区域-->
 		<view>
@@ -14,7 +14,6 @@
                   <input  placeholder="请输入类型名" v-model="model.accountType"/>
                 </view>
               </view>
-              <my-date label="创建日期：" v-model="model.createTime" placeholder="请输入创建日期"></my-date>
 				<view class="padding">
 					<button class="cu-btn block bg-blue margin-tb-sm lg" @click="onSubmit">
 						<text v-if="loading" class="cuIcon-loading2 cuIconfont-spin"></text>提交
@@ -46,9 +45,9 @@
                 model: {},
                 backRouteName:'index',
                 url: {
-                  queryById: "/uporderUserType/uporderUserType/queryById",
-                  add: "/uporderUserType/uporderUserType/add",
-                  edit: "/uporderUserType/uporderUserType/edit",
+                  queryById: "/usertype/uporderUserType/queryById",
+                  add: "/usertype/uporderUserType/add",
+                  edit: "/usertype/uporderUserType/edit",
                 },
             }
         },
