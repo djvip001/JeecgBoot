@@ -17,6 +17,7 @@ import org.jeecg.config.shiro.IgnoreAuth;
 import org.jeecg.modules.system.entity.SysDepart;
 import org.jeecg.modules.system.service.ISysDepartService;
 import org.jeecg.modules.system.service.impl.SysDataLogServiceImpl;
+import org.jeecg.modules.uporder.product.vo.QueryActOrderStatVo;
 import org.jeecg.modules.uporder.product.vo.UporderProductAction;
 import org.jeecg.modules.uporder.user.entity.UporderUser;
 import org.jeecg.modules.uporder.user.service.IUporderUserService;
@@ -387,7 +388,7 @@ public class UporderProductController {
 
 
 
-	 @ApiOperation(value="产品表-查询活动页的产品", notes="产品表-已删除分页列表查询")
+	 @ApiOperation(value="产品表-查询活动页的产品")
 	 @GetMapping(value = "/listDoingAction")
 	 @IgnoreAuth
 	 public Result<IPage<UporderProductAction>> listDoingAction(UporderProduct uporderProduct,
@@ -407,9 +408,34 @@ public class UporderProductController {
 		 customeRuleMap.put("projectId", QueryRuleEnum.LIKE_WITH_OR);
 		 QueryWrapper<UporderProduct> queryWrapper = QueryGenerator.initQueryWrapper(uporderProduct, req.getParameterMap(),customeRuleMap);
 		 queryWrapper.eq("show_act",1).eq("up.del_flag",0).eq("up.sys_org_code",sysOrgCode);
-		 Page<UporderProductAction> page = new Page<UporderProductAction>(pageNo, pageSize);
+		 Page<UporderProductAction> page = new Page<>(pageNo, pageSize);
 		 IPage<UporderProductAction> pageList = uporderProductService.listAction(page, queryWrapper);
 		 return Result.OK(pageList);
 	 }
 
+	 @ApiOperation(value="查询报过单的产品列表")
+	 @GetMapping(value = "/queryActOrderStat")
+	 @IgnoreAuth
+	 public Result<IPage<QueryActOrderStatVo>> queryActOrderStat(UporderProduct uporderProduct,
+																@RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+																@RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+																HttpServletRequest req) {
+
+		 String token = req.getHeader(CommonConstant.X_ACCESS_TOKEN);
+
+		 String username = JwtUtil.getUsername(token);
+		 UporderUser uporderUser = uporderUserService.getUserByName(username);
+		 String sysOrgCode = uporderUser.getSysOrgCode();
+
+		 // 自定义查询规则
+		 Map<String, QueryRuleEnum> customeRuleMap = new HashMap<>();
+		 // 自定义多选的查询规则为：LIKE_WITH_OR
+		 customeRuleMap.put("projectId", QueryRuleEnum.LIKE_WITH_OR);
+		 QueryWrapper<UporderProduct> queryWrapper = QueryGenerator.initQueryWrapper(uporderProduct, req.getParameterMap(),customeRuleMap);
+		 queryWrapper.eq("show_act",1).eq("up.del_flag",0).eq("up.sys_org_code",sysOrgCode)
+				 .apply("user_id="+uporderUser.getId());
+		 Page<QueryActOrderStatVo> page = new Page<>(pageNo, pageSize);
+		 IPage<QueryActOrderStatVo> pageList = uporderProductService.queryActOrderStat(page, queryWrapper);
+		 return Result.OK(pageList);
+	 }
  }

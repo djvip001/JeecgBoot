@@ -1,10 +1,13 @@
 package org.jeecg.modules.uporder.product.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.jeecg.modules.system.service.ISysUserService;
+import org.jeecg.modules.uporder.order.entity.UporderOrder;
+import org.jeecg.modules.uporder.order.mapper.UporderOrderMapper;
 import org.jeecg.modules.uporder.product.entity.UporderProduct;
 import org.jeecg.modules.uporder.product.entity.UporderProductMediumText;
 import org.jeecg.modules.uporder.product.entity.UporderProductTypeRefundConfig;
@@ -18,12 +21,14 @@ import org.jeecg.modules.uporder.product.mapper.UporderProductUserLimitMapper;
 import org.jeecg.modules.uporder.product.mapper.UporderProductBuyLinkMapper;
 import org.jeecg.modules.uporder.product.mapper.UporderProductMapper;
 import org.jeecg.modules.uporder.product.service.IUporderProductService;
+import org.jeecg.modules.uporder.product.vo.QueryActOrderStatVo;
 import org.jeecg.modules.uporder.product.vo.UporderProductAction;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Collection;
 
@@ -50,7 +55,7 @@ public class UporderProductServiceImpl extends ServiceImpl<UporderProductMapper,
 	private UporderProductBuyLinkMapper uporderProductBuyLinkMapper;
 
 	@Autowired
-	private ISysUserService sysUserService;
+	private UporderOrderMapper uporderOrderMapper;
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -200,6 +205,22 @@ public class UporderProductServiceImpl extends ServiceImpl<UporderProductMapper,
 			}
 
 			u.setOrderFormUrl(orderFormUrl);
+		});
+		return page.setRecords(uporderProduct);
+	}
+
+	@Override
+	public IPage<QueryActOrderStatVo> queryActOrderStat(Page<QueryActOrderStatVo> page, QueryWrapper<UporderProduct> queryWrapper) {
+
+		List<QueryActOrderStatVo> uporderProduct = uporderProductMapper.queryActOrderStat(page,queryWrapper);
+		uporderProduct.forEach(a->{
+
+			LambdaQueryWrapper<UporderOrder> lqw=new LambdaQueryWrapper<>();
+			lqw.eq(UporderOrder::getProductId,a.getId()).eq(UporderOrder::getUserId,a.getUserId());
+			List<UporderOrder> uporderOrders = uporderOrderMapper.selectList(lqw);
+			a.setOrderNum(uporderOrders.size());
+			BigDecimal reduce = uporderOrders.stream().map(UporderOrder::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+			a.setTotalPrice(reduce);
 		});
 		return page.setRecords(uporderProduct);
 	}

@@ -103,6 +103,7 @@ public class UporderOrderServiceImpl extends ServiceImpl<UporderOrderMapper, Upo
 		uporderOrder.setPayTime(new Date());
 		uporderOrder.setMcount(1);
 		uporderOrder.setActualPayMoney(uporderOrder.getPrice());
+		uporderOrder.setCreateBy(uporderUser.getAccount());
 		//产品信息
 		String productId = upOrderSaveParam.getProductId();
 		UporderProduct product = productService.getById(productId);

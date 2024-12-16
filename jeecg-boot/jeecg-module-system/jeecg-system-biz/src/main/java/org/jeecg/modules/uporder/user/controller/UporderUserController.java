@@ -3,6 +3,9 @@ package org.jeecg.modules.uporder.user.controller;
 import java.util.Arrays;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.hutool.core.util.ObjUtil;
+import cn.hutool.crypto.SecureUtil;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.modules.uporder.user.entity.UporderUser;
@@ -69,6 +72,8 @@ public class UporderUserController extends JeecgController<UporderUser, IUporder
 	@RequiresPermissions("user:uporder_user:add")
 	@PostMapping(value = "/add")
 	public Result<String> add(@RequestBody UporderUser uporderUser) {
+		String s = SecureUtil.md5(uporderUser.getPassword());
+		uporderUser.setPassword(s);
 		uporderUserService.save(uporderUser);
 		return Result.OK("添加成功！");
 	}
@@ -84,6 +89,12 @@ public class UporderUserController extends JeecgController<UporderUser, IUporder
 	@RequiresPermissions("user:uporder_user:edit")
 	@RequestMapping(value = "/edit", method = {RequestMethod.PUT,RequestMethod.POST})
 	public Result<String> edit(@RequestBody UporderUser uporderUser) {
+
+		if (ObjUtil.isNotNull(uporderUser.getPassword())){
+			String s = SecureUtil.md5(uporderUser.getPassword());
+			uporderUser.setPassword(s);
+		}
+
 		uporderUserService.updateById(uporderUser);
 		return Result.OK("编辑成功!");
 	}

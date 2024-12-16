@@ -13,8 +13,18 @@
     </select>
 
     <select id="listAction" resultType="org.jeecg.modules.uporder.product.vo.UporderProductAction">
-        select * from uporder_product up left join uporder_product_medium_text mt on up.id=mt.product_id
+        select   up.id,up.product_name,left_limit_money,domain,up.discount,plan_html,refund_cal_way,buy_url
+        from uporder_product up left join uporder_product_medium_text mt on up.id=mt.product_id
         left join sys_depart sd on up.sys_org_code=sd.org_code
         ${ew.customSqlSegment}
+    </select>
+
+    <select id="queryActOrderStat" resultType="org.jeecg.modules.uporder.product.vo.QueryActOrderStatVo">
+        select distinct  up.id,up.product_name,left_limit_money,domain,up.discount,plan_html,up.refund_cal_way,buy_url,uo.user_id
+        from uporder_product up left join uporder_product_medium_text mt on up.id=mt.product_id
+        left join sys_depart sd on up.sys_org_code=sd.org_code
+        inner join uporder_order uo on up.id=uo.product_id
+        ${ew.customSqlSegment}
+
     </select>
 </mapper>

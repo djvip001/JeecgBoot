@@ -10,6 +10,7 @@ import org.jeecg.modules.uporder.product.entity.UporderProductUserLimit;
 import org.jeecg.modules.uporder.product.entity.UporderProductBuyLink;
 import org.jeecg.modules.uporder.product.entity.UporderProduct;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.jeecg.modules.uporder.product.vo.QueryActOrderStatVo;
 import org.jeecg.modules.uporder.product.vo.UporderProductAction;
 
 import java.io.Serializable;
@@ -68,4 +69,6 @@ public interface IUporderProductService extends IService<UporderProduct> {
 	void recover(String id);
 
 	IPage<UporderProductAction> listAction(Page<UporderProductAction> page, QueryWrapper<UporderProduct> queryWrapper);
+
+	IPage<QueryActOrderStatVo> queryActOrderStat(Page<QueryActOrderStatVo> page, QueryWrapper<UporderProduct> queryWrapper);
 }

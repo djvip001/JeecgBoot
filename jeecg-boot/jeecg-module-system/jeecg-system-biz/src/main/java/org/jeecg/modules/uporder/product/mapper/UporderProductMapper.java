@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.jeecg.modules.uporder.product.entity.UporderProduct;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.jeecg.modules.uporder.product.vo.QueryActOrderStatVo;
 import org.jeecg.modules.uporder.product.vo.UporderProductAction;
 import org.jeecg.modules.uporder.user.entity.UporderUser;
 
@@ -26,4 +27,6 @@ public interface UporderProductMapper extends BaseMapper<UporderProduct> {
 
     @InterceptorIgnore(tenantLine = "true")
     List<UporderProductAction> listAction(Page<UporderProductAction> page, @Param(Constants.WRAPPER) QueryWrapper<UporderProduct> queryWrapper);
+    @InterceptorIgnore(tenantLine = "true")
+    List<QueryActOrderStatVo> queryActOrderStat(Page<QueryActOrderStatVo> page, @Param(Constants.WRAPPER) QueryWrapper<UporderProduct> queryWrapper);
 }

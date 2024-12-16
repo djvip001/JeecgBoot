@@ -22,10 +22,7 @@ import org.jeecg.modules.uporder.user.entity.UporderUser;
 import org.jeecg.modules.uporder.user.model.UporderUserLoginModel;
 import org.jeecg.modules.uporder.user.service.IUporderUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,7 +46,7 @@ public class UporderLoginController {
 
 
     @ApiOperation("登录接口")
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @PostMapping(value = "/login")
     @IgnoreAuth
     public Result<JSONObject> login(@RequestBody UporderUserLoginModel uporderUserLoginModel, HttpServletRequest request){
         Result<JSONObject> result = new Result<JSONObject>();
@@ -88,7 +85,7 @@ public class UporderLoginController {
      * @return
      */
     @ApiOperation("退出接口")
-    @RequestMapping(value = "/logout")
+    @PostMapping(value = "/logout")
     @IgnoreAuth
     public Result<Object> logout(HttpServletRequest request, HttpServletResponse response) {
         //用户退出逻辑

@@ -290,4 +290,25 @@ public class UporderOrderController {
 		 return Result.OK("添加成功！");
 	 }
 
-}
+	 @ApiOperation(value="报单端查询订单列表", notes="订单表-分页列表查询")
+	 @GetMapping(value = "/h5/list")
+	 @IgnoreAuth
+	 public Result<IPage<UporderOrder>> h5List(UporderOrder uporderOrder,
+													  @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+													  @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+													  HttpServletRequest req) {
+
+
+		 String token = req.getHeader(CommonConstant.X_ACCESS_TOKEN);
+
+		 String username = JwtUtil.getUsername(token);
+		 UporderUser uporderUser = uporderUserService.getUserByName(username);
+
+		 uporderOrder.setUserId(uporderUser.getId());
+		 QueryWrapper<UporderOrder> queryWrapper = QueryGenerator.initQueryWrapper(uporderOrder, req.getParameterMap());
+		 Page<UporderOrder> page = new Page<UporderOrder>(pageNo, pageSize);
+		 IPage<UporderOrder> pageList = uporderOrderService.page(page, queryWrapper);
+		 return Result.OK(pageList);
+	 }
+
+ }

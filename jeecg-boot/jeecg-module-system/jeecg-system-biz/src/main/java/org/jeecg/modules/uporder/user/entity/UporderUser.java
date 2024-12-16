@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.jeecg.common.constant.ProvinceCityArea;
 import org.jeecg.common.util.SpringContextUtils;
 import lombok.Data;
@@ -45,6 +46,7 @@ public class UporderUser implements Serializable {
 	/**密码*/
 	@Excel(name = "密码", width = 15)
     @ApiModelProperty(value = "密码")
+    @JsonIgnore
     private java.lang.String password;
 	/**账号类型*/
 	@Excel(name = "账号类型", width = 15, dictTable = "uporder_user_type", dicText = "account_type", dicCode = "id")
