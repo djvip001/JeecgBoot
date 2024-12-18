@@ -11,6 +11,7 @@ import org.jeecg.common.exception.JeecgBootException;
 import org.jeecg.common.util.CommonUtils;
 import org.jeecg.common.util.filter.SsrfFileTypeFilter;
 import org.jeecg.common.util.oConvertUtils;
+import org.jeecg.config.shiro.IgnoreAuth;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.util.AntPathMatcher;
@@ -353,6 +354,7 @@ public class CommonController {
     }
 
     @PostMapping(value = "/uploads")
+    @IgnoreAuth
     public Result<?> uploads(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Result<?> result = new Result<>();
         String bizPath = request.getParameter("biz");
