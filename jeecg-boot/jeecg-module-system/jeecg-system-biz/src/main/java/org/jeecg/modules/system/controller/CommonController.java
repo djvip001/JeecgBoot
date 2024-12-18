@@ -1,5 +1,7 @@
 package org.jeecg.modules.system.controller;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.constant.CommonConstant;
@@ -22,6 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -348,4 +352,70 @@ public class CommonController {
         return new AntPathMatcher().extractPathWithinPattern(bestMatchPattern, path);
     }
 
+    @PostMapping(value = "/uploads")
+    public Result<?> uploads(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Result<?> result = new Result<>();
+        String bizPath = request.getParameter("biz");
+
+        //LOWCOD-2580 sys/common/upload接口存在任意文件上传漏洞
+        if (oConvertUtils.isNotEmpty(bizPath)) {
+            if(bizPath.contains(SymbolConstant.SPOT_SINGLE_SLASH) || bizPath.contains(SymbolConstant.SPOT_DOUBLE_BACKSLASH)){
+                throw new JeecgBootException("上传目录bizPath，格式非法！");
+            }
+        }
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        // 获取上传文件对象
+        List<String> urlList= new ArrayList<>();
+        List<MultipartFile> files = multipartRequest.getFiles("files");
+        for (MultipartFile file : files) {
+            String savePath;
+            if(oConvertUtils.isEmpty(bizPath)){
+                if(CommonConstant.UPLOAD_TYPE_OSS.equals(uploadType)){
+                    //未指定目录，则用阿里云默认目录 upload
+                    bizPath = "upload";
+                    //result.setMessage("使用阿里云文件上传时，必须添加目录！");
+                    //result.setSuccess(false);
+                    //return result;
+                }else{
+                    bizPath = "";
+                }
+            }
+            if(CommonConstant.UPLOAD_TYPE_LOCAL.equals(uploadType)){
+                //update-begin-author:liusq date:20221102 for: 过滤上传文件类型
+                SsrfFileTypeFilter.checkUploadFileType(file);
+                //update-end-author:liusq date:20221102 for: 过滤上传文件类型
+                //update-begin-author:lvdandan date:20200928 for:修改JEditor编辑器本地上传
+                savePath = this.uploadLocal(file,bizPath);
+                //update-begin-author:lvdandan date:20200928 for:修改JEditor编辑器本地上传
+                /**  富文本编辑器及markdown本地上传时，采用返回链接方式
+                 //针对jeditor编辑器如何使 lcaol模式，采用 base64格式存储
+                 String jeditor = request.getParameter("jeditor");
+                 if(oConvertUtils.isNotEmpty(jeditor)){
+                 result.setMessage(CommonConstant.UPLOAD_TYPE_LOCAL);
+                 result.setSuccess(true);
+                 return result;
+                 }else{
+                 savePath = this.uploadLocal(file,bizPath);
+                 }
+                 */
+            }else{
+                //update-begin-author:taoyan date:20200814 for:文件上传改造
+                savePath = CommonUtils.upload(file, bizPath, uploadType);
+                //update-end-author:taoyan date:20200814 for:文件上传改造
+            }
+
+            urlList.add(savePath);
+        }
+
+        if(CollUtil.isNotEmpty(urlList)){
+            String join = StrUtil.join(",", urlList);
+            result.setMessage(join);
+            result.setSuccess(true);
+        }else {
+            result.setMessage("上传失败！");
+            result.setSuccess(false);
+        }
+        return result;
+    }
 }

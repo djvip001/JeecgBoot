@@ -41,11 +41,13 @@
   import {BasicTable, useTable, TableAction} from '/@/components/Table';
   import { useListPage } from '/@/hooks/system/useListPage'
   import {useModal} from '/@/components/Modal';
+  import { getFileAccessHttpUrl } from '/@/utils/common/compUtils';
   import UporderOrderModal from './components/UporderOrderModal.vue'
   import {columns, searchFormSchema, superQuerySchema} from './UporderOrder.data';
   import {list, deleteOne, batchDelete, getImportUrl,getExportUrl} from './UporderOrder.api';
   import {downloadFile} from '/@/utils/common/renderUtils';
   import { useUserStore } from '/@/store/modules/user';
+  import defaultAvatar from "@/components/jeecg/AiChat/assets/avatar.jpg";
   const queryParam = reactive<any>({});
   const checkedKeys = ref<Array<string | number>>([]);
   const userStore = useUserStore();

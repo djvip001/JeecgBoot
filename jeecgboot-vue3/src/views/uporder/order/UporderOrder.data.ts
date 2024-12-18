@@ -34,22 +34,26 @@ export const columns: BasicColumn[] = [
    {
     title: '订单图',
     align:"center",
-    dataIndex: 'imgPath'
+    dataIndex: 'imgPath',
+     customRender:render.renderImage
    },
    {
     title: '评价图',
     align:"center",
-    dataIndex: 'commentImg'
+    dataIndex: 'commentImg',
+     customRender:render.renderImage,
    },
    {
     title: '尾款图',
     align:"center",
-    dataIndex: 'finalPayImg'
+    dataIndex: 'finalPayImg',
+     customRender:render.renderImage,
    },
    {
     title: '完成图',
     align:"center",
-    dataIndex: 'orderCompleteImg'
+    dataIndex: 'orderCompleteImg',
+     customRender:render.renderImage,
    },
    {
     title: '订单状态',
