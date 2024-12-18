@@ -203,7 +203,7 @@ export const columns: BasicColumn[] = [
 //查询数据
 export const searchFormSchema: FormSchema[] = [
 	{
-      label: "报单人id",
+      label: "报单人",
       field: "userId",
       component: 'JSelectMultiple',
       componentProps:{
@@ -212,7 +212,7 @@ export const searchFormSchema: FormSchema[] = [
       //colProps: {span: 6},
  	},
 	{
-      label: "产品id",
+      label: "产品",
       field: "productId",
       component: 'JSelectMultiple',
       componentProps:{
@@ -302,7 +302,7 @@ export const searchFormSchema: FormSchema[] = [
 //表单数据
 export const formSchema: FormSchema[] = [
   {
-    label: '报单人id',
+    label: '报单人',
     field: 'userId',
     component: 'JDictSelectTag',
     componentProps:{
@@ -315,7 +315,7 @@ export const formSchema: FormSchema[] = [
      },
   },
   {
-    label: '产品id',
+    label: '产品',
     field: 'productId',
     component: 'JDictSelectTag',
     componentProps:{
